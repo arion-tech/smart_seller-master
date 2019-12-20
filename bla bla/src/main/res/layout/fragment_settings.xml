@@ -1,0 +1,419 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray"
+    android:clickable="true"
+    android:orientation="horizontal"
+    tools:context="io.mintit.lafarge.ui.fragment.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <RelativeLayout
+            android:id="@+id/general_settings"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rectangle_white_outline_round">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp" android:layout_margin="5dp"
+                android:layout_centerInParent="true"
+                android:text="@string/general_settings_text"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/selected_setting_arrow_generalSettings"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="-10dp"
+                android:rotation="-180"
+                android:src="@drawable/triangle"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp">
+
+            <RelativeLayout
+                android:id="@+id/cgu_settings"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rectangle_accent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="10sp"
+                    android:layout_margin="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="CGU"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/selected_setting_arrow_cgu"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="-10dp"
+                android:rotation="-180"
+                android:src="@drawable/triangle" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:id="@+id/cgu_displayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="20dp"
+                        android:text="Conditions générales d'utilisation"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu nisi nisi. In tincidunt risus ante, vitae convallis tellus placerat a. Etiam congue eu lorem eget pharetra. Phasellus sollicitudin placerat est et cursus. Aenean euismod sem ac nibh rutrum vulputate. Proin fermentum imperdiet eros et ornare. Nunc quis est feugiat, ultrices dui a, vulputate libero. Nulla tincidunt ac eros a fermentum. Quisque vehicula blandit imperdiet. Fusce ornare justo quis lobortis luctus. Nulla non interdum risus, vel mattis lorem. Sed ultricies ante elit.
+
+Ut dignissim erat non tincidunt hendrerit. Ut a laoreet tellus. Curabitur ut est id nunc varius mattis ut non urna. Cras placerat tellus nec metus porta mattis. Nulla iaculis turpis eget ex bibendum, non viverra augue tempus. Nam lobortis nisl ac libero consequat, a ultrices dolor varius. Pellentesque nec dictum erat, porttitor lobortis turpis. Phasellus nisl purus, egestas nec feugiat ut, consequat sit amet odio. Maecenas lacinia vel arcu ac convallis. Donec augue augue, rutrum vitae est ac, finibus posuere tellus.
+
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed faucibus varius nibh eu porttitor. Praesent accumsan tristique nisl, nec iaculis lorem maximus non. Donec quam felis, congue nec rhoncus et, eleifend non leo. Cras et eros iaculis, vestibulum lectus ac, fringilla velit. Morbi lobortis, leo id consequat vestibulum, ante tortor ullamcorper risus, ac viverra nibh sem id tortor. Praesent congue feugiat tempus. Curabitur et urna dapibus, maximus erat non, sodales ipsum. Aliquam efficitur massa in consequat efficitur.
+
+Nam risus tellus, fermentum vel nisi eget, ornare sollicitudin risus. Fusce porttitor augue semper, tincidunt urna non, fringilla elit. Quisque tristique cursus sagittis. Vestibulum volutpat commodo tincidunt. Proin vulputate, elit ac laoreet porttitor, dolor elit blandit turpis, quis ornare ante mauris in tellus. Nam est elit, posuere non imperdiet vitae, euismod in ex. Aliquam at purus placerat, ultricies libero vitae, auctor massa. Duis eget viverra nunc. Etiam pellentesque ornare urna in semper. Maecenas in pretium erat. Proin imperdiet purus molestie tellus pulvinar scelerisque. In tristique nisi sed consectetur tempor. Suspendisse lorem nibh, molestie tincidunt blandit ut, rhoncus quis justo.
+
+Mauris at scelerisque turpis. Vivamus mattis vel elit in ultricies. Donec aliquam lorem non dapibus aliquam. Vestibulum dapibus nisl lorem, eget dictum metus iaculis a. Nullam vitae risus elit. Praesent bibendum congue nisi at ornare. Curabitur dictum tempor lorem, a bibendum est accumsan in. Sed efficitur ultricies placerat.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu nisi nisi. In tincidunt risus ante, vitae convallis tellus placerat a. Etiam congue eu lorem eget pharetra. Phasellus sollicitudin placerat est et cursus. Aenean euismod sem ac nibh rutrum vulputate. Proin fermentum imperdiet eros et ornare. Nunc quis est feugiat, ultrices dui a, vulputate libero. Nulla tincidunt ac eros a fermentum. Quisque vehicula blandit imperdiet. Fusce ornare justo quis lobortis luctus. Nulla non interdum risus, vel mattis lorem. Sed ultricies ante elit.
+
+Ut dignissim erat non tincidunt hendrerit. Ut a laoreet tellus. Curabitur ut est id nunc varius mattis ut non urna. Cras placerat tellus nec metus porta mattis. Nulla iaculis turpis eget ex bibendum, non viverra augue tempus. Nam lobortis nisl ac libero consequat, a ultrices dolor varius. Pellentesque nec dictum erat, porttitor lobortis turpis. Phasellus nisl purus, egestas nec feugiat ut, consequat sit amet odio. Maecenas lacinia vel arcu ac convallis. Donec augue augue, rutrum vitae est ac, finibus posuere tellus.
+
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed faucibus varius nibh eu porttitor. Praesent accumsan tristique nisl, nec iaculis lorem maximus non. Donec quam felis, congue nec rhoncus et, eleifend non leo. Cras et eros iaculis, vestibulum lectus ac, fringilla velit. Morbi lobortis, leo id consequat vestibulum, ante tortor ullamcorper risus, ac viverra nibh sem id tortor. Praesent congue feugiat tempus. Curabitur et urna dapibus, maximus erat non, sodales ipsum. Aliquam efficitur massa in consequat efficitur.
+
+Nam risus tellus, fermentum vel nisi eget, ornare sollicitudin risus. Fusce porttitor augue semper, tincidunt urna non, fringilla elit. Quisque tristique cursus sagittis. Vestibulum volutpat commodo tincidunt. Proin vulputate, elit ac laoreet porttitor, dolor elit blandit turpis, quis ornare ante mauris in tellus. Nam est elit, posuere non imperdiet vitae, euismod in ex. Aliquam at purus placerat, ultricies libero vitae, auctor massa. Duis eget viverra nunc. Etiam pellentesque ornare urna in semper. Maecenas in pretium erat. Proin imperdiet purus molestie tellus pulvinar scelerisque. In tristique nisi sed consectetur tempor. Suspendisse lorem nibh, molestie tincidunt blandit ut, rhoncus quis justo.
+
+Mauris at scelerisque turpis. Vivamus mattis vel elit in ultricies. Donec aliquam lorem non dapibus aliquam. Vestibulum dapibus nisl lorem, eget dictum metus iaculis a. Nullam vitae risus elit. Praesent bibendum congue nisi at ornare. Curabitur dictum tempor lorem, a bibendum est accumsan in. Sed efficitur ultricies placerat." />
+                </LinearLayout>
+
+            </ScrollView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/general_settings_displayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="20dp"
+                        android:text="@string/general_settings_text"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:text="@string/change_language"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/choisir_la_langue"/>
+
+                                <RelativeLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="5dp">
+
+                                    <RadioButton
+                                        android:id="@+id/radioButtons_FR"
+                                        android:layout_width="60dp"
+                                        android:layout_height="40dp"
+                                        android:background="@drawable/rectangle_white_outlined_states_2"/>
+
+                                    <LinearLayout
+                                        android:layout_width="60dp"
+                                        android:layout_height="40dp"
+                                        android:layout_centerInParent="true"
+                                        android:layout_margin="2dp"
+                                        android:background="@drawable/rectangle_dark_gray_9"
+                                        android:clickable="false"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:clickable="false"
+                                            android:paddingLeft="2dp"
+                                            android:paddingRight="2dp"
+                                            android:text="@string/fr"
+                                            android:textColor="@color/white" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:layout_marginRight="2dp"
+                                            android:clickable="false"
+                                            android:src="@drawable/french_flag" />
+                                    </LinearLayout>
+
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="5dp">
+
+                                    <RadioButton
+                                        android:id="@+id/radioButtons_EN"
+                                        android:layout_width="60dp"
+                                        android:layout_height="40dp"
+                                        android:button="@null"
+                                        android:background="@drawable/rectangle_white_outlined_states_2"/>
+
+                                    <LinearLayout
+                                        android:layout_width="60dp"
+                                        android:layout_height="40dp"
+                                        android:layout_centerInParent="true"
+                                        android:layout_margin="2dp"
+                                        android:background="@drawable/rectangle_dark_gray_9"
+                                        android:clickable="false"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="5dp">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:button="@null"
+                                            android:clickable="false"
+                                            android:paddingLeft="2dp"
+                                            android:paddingRight="2dp"
+                                            android:text="@string/en"
+                                            android:textColor="@color/white" />
+
+                                        <ImageView
+                                            android:layout_width="15dp"
+                                            android:layout_height="15dp"
+                                            android:layout_marginRight="2dp"
+                                            android:clickable="false"
+                                            android:src="@drawable/english_flag" />
+                                    </LinearLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGray3"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/settings_change_theme"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp">
+                            <Button
+                                android:id="@+id/theme_default"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.3"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+
+                                android:background="@drawable/rectangle_primary"
+                                android:text="@string/theme_default_text"
+                                android:textColor="@color/lightGray"/>
+                            <Button
+                                android:id="@+id/theme_indigo"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.3"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+
+                                android:background="@drawable/rectangle_primary"
+                                android:text="@string/theme_indigo_text"
+                                android:textColor="@color/lightGray"/>
+                            <Button
+                                android:id="@+id/theme_pink"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.3"
+                                android:layout_height="wrap_content"
+
+                                android:background="@drawable/rectangle_primary"
+                                android:text="@string/theme_pink_text"
+                                android:textColor="@color/lightGray"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGray3"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/logo_change"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/choose_logo" />
+
+                            <Button
+                                android:id="@+id/change_logo"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.3"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_primary"
+                                android:text="@string/open_gallery"
+                                android:textColor="@color/lightGray"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGray3"
+                            android:layout_marginTop="10dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

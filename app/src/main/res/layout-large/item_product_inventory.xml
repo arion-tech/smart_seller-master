@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray2"
+        android:clipToPadding="true"
+        card_view:cardUseCompatPadding="true"
+        card_view:elevation="2dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/textview_product_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="Mon produit" />
+
+            <TextView
+                android:id="@+id/textview_product_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                tools:text="0123456789" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:background="@color/gray95">
+
+                <EditText
+                    android:id="@+id/textview_product_stock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                 android:focusableInTouchMode="false"   android:background="@null"
+                    android:imeOptions="flagNoExtractUi"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    tools:text="150" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_white_outline_gray_round">
+
+                <EditText
+                    android:id="@+id/textview_product_physical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:background="@null"
+                    android:imeOptions="flagNoExtractUi"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    tools:text="150" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

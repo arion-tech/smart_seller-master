@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    tools:context=".ui.fragment.OperationsFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_operations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/resend_operations"/>
+
+    <TextView
+        android:id="@+id/textview_empty_operations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/aucune_op_ration_sauvegard_e"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/resend_operations"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_resend"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

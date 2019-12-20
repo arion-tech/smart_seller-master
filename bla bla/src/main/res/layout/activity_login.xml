@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_lafarge" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/splash_icon" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="40dp"
+                        android:orientation="vertical">
+
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/edittext_border_filled"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+
+                            <EditText
+                                android:id="@+id/editTextEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:background="@null"
+                                android:hint="@string/identifier"
+                                android:imeOptions="flagNoExtractUi"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@android:color/white" />
+
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edittext_border_filled"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+
+                            <EditText
+                                android:id="@+id/editTextPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:background="@null"
+                                android:hint="@string/mot_de_passe"
+                                android:imeOptions="flagNoExtractUi|actionGo"
+                                android:inputType="textPassword"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@android:color/white" />
+
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/buttonLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/rectangle_primary"
+                            android:text="@string/se_connecter"
+                            android:onClick="login"
+                            android:textColor="@color/lightGray"
+
+                          />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/choisir_la_langue"
+                                android:textColor="#fff" />
+
+                            <RelativeLayout
+                                android:layout_width="60dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton_FR"
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/rectangle_white_outlined_states_2"
+                                    android:onClick="onRadioFR"/>
+
+                                <LinearLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:layout_centerInParent="true"
+                                    android:layout_margin="2dp"
+                                    android:background="@drawable/rectangle_dark_gray_9"
+                                    android:clickable="false"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:paddingLeft="2dp"
+                                        android:paddingRight="2dp"
+                                        android:text="@string/fr"
+                                        android:textColor="@color/white" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_marginRight="2dp"
+                                        android:clickable="false"
+                                        android:src="@drawable/french_flag" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="60dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton_EN"
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:button="@null"
+                                    android:background="@drawable/rectangle_white_outlined_states_2"
+                                    android:onClick="onRadioEN"/>
+
+                                <LinearLayout
+                                    android:layout_width="60dp"
+                                    android:layout_height="40dp"
+                                    android:layout_centerInParent="true"
+                                    android:layout_margin="2dp"
+                                    android:background="@drawable/rectangle_dark_gray_9"
+                                    android:clickable="false"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:padding="5dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:button="@null"
+                                        android:clickable="false"
+                                        android:paddingLeft="2dp"
+                                        android:paddingRight="2dp"
+                                        android:text="@string/en"
+                                        android:textColor="@color/white" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_marginRight="2dp"
+                                        android:clickable="false"
+                                        android:src="@drawable/english_flag" />
+                                </LinearLayout>
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/linearLayout_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+

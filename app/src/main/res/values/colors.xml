@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4C403B</color>
+    <color name="colorPrimaryTransparent">#504C403B</color>
+    <color name="colorPrimaryDark">#9B9B9B</color>
+    <color name="colorAccent">#7B6668</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="white">#ffffff</color>
+    <color name="charcoal">#7B6668</color>
+    <color name="gray">#7B6668</color>
+    <color name="transparentGray">#207B6668</color>
+    <color name="darkGray">#9B9B9B</color>
+    <color name="red">#e2574c</color>
+    <color name="lightGray">#f5f5f5</color>
+    <color name="transparentLightGray">#20FAF9F9</color>
+    <color name="transparent">#20FFFFFF</color>
+    <color name="lightGray2">#D1D1D1</color>
+    <color name="lightGray3">#4a4a4a</color>
+    <color name="lime_green">#2ecc71</color>
+    <color name="gainsboro">#545454</color>
+    <color name="gainsborotransparent">#996F6F6C</color>
+    <color name="gray95">#f2f2f2</color>
+    <color name="gray9">#484A47</color>
+
+    <!-- THEME N°2 -->
+
+    <color name="indigo">#3F51B5</color>
+    <color name="indigoDark">#303F9F</color>
+    <color name="indigoAccent">#757de8</color>
+    <color name="black">#000000</color>
+    <color name="green">#50fe00</color>
+    <color name="red_light">#ff0000</color>
+    <color name="dark_gray">#a9a9a9</color>
+    <color name="pink">#e91e63</color>
+    <color name="pinkDark">#b0003a</color>
+    <color name="pinkAccent">#ff6090</color>
+
+
+</resources>
