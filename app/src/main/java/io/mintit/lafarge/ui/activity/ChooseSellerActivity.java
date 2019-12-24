@@ -87,6 +87,7 @@ public class ChooseSellerActivity extends AppCompatActivity {
                 for(Seller s: response.body()){
                     listSellers.add(s);
                     System.out.println("SEEEELLLLLEEEER : " + s.toString());
+                    System.out.println("SEEEELLLLLEEEER : " + s.toString());
                 }
                 //------------
                 //this.showProgressBar(false);

@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/dialog_bg"
-    android:layout_height="wrap_content"
-  >
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +15,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/d_tails_du_produit"
             android:textAllCaps="true"
             android:textColor="@color/lightGray3" />
@@ -103,8 +102,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/darkGray" />
 
         <TextView
@@ -127,24 +126,24 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/darkGray" />
 
         <LinearLayout
             android:id="@+id/linearlayout_associate_to_cart_container"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -164,8 +163,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/darkGray" />
 
             <LinearLayout
@@ -195,8 +194,55 @@
 
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearlayout_detail_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="color"
+              android:textAllCaps="true"
+              android:textColor="@color/lightGray3" />
+                <ImageView
+                    android:id="@+id/color_Article"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:src="@drawable/iconecolor"/>
+        </LinearLayout>
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+               >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="taille"
+                android:textAllCaps="true"
+                android:textColor="@color/lightGray3"
+                />
+                <TextView
+                    android:id="@+id/taille_article"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:textColor="@color/lightGray3" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/imageview_close"
@@ -207,4 +253,9 @@
         android:padding="5dp"
         android:src="@drawable/close_popup"
         android:tint="@color/lightGray3" />
+
+
+
+
+
 </RelativeLayout>

@@ -13,8 +13,10 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +33,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.mintit.lafarge.R;
+import io.mintit.lafarge.Retrofit.ApiInterface;
+import io.mintit.lafarge.Retrofit.ApiManager;
 import io.mintit.lafarge.events.CustomerSelectedEvent;
 import io.mintit.lafarge.events.UpdateCustomerInfoEvent;
 import io.mintit.lafarge.global.Constants;
@@ -44,6 +48,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -229,7 +237,7 @@ public class CustomerFragment extends BaseFragment implements DatePickerDialog.O
 
     private void saveCustomer(final Customer customer) {
         activity.showProgressBar(true);
-        Completable.fromAction(new Action() {
+        /*Completable.fromAction(new Action() {
             @Override
             public void run() {
                 activity.getLafargeDatabase().customerDao().insertCustomer(customer);
@@ -265,7 +273,28 @@ public class CustomerFragment extends BaseFragment implements DatePickerDialog.O
                     public void onError(Throwable e) {
                         Log.d("ERROR ROOM add customer", e.getMessage());
                     }
-                });
+                });*/
+        ApiInterface service = ApiManager.createService(ApiInterface.class);
+        JsonObject paramObject = new JsonObject();
+        paramObject.addProperty("",String.valueOf(customer));
+        Call<ResponseBody> AddCustomerCall = service.addcustomer(customer);
+        AddCustomerCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(activity, R.string.info_message_customer_add_success, Toast.LENGTH_SHORT).show();
+                Log.d("customer added ",response.message());
+                activity.showProgressBar(false);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                Log.d("ERROR ROOM add customer", throwable.getMessage());
+                activity.showProgressBar(false);
+                Toast.makeText(activity, "", Toast.LENGTH_SHORT).show();
+            }});
+
+
+
     }
 
 

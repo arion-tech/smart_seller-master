@@ -281,7 +281,6 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
                 ArrayList<Article> listArticle = response.body();
                 int i = 0;
                 for(Article s: listArticle){
-
                     System.out.println("service product : " + s.toString());
                     Article p = new Article();
                     p.setId(s.getId());
@@ -291,6 +290,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
                     p.setProductCode(s.getProductCode());
                     p.setCategory(s.getCategory());
                     p.setEanCode(s.getEanCode());
+                    p.setSizeCode(s.getSizeCode());
                     listProducts.add(p);
                 }
 

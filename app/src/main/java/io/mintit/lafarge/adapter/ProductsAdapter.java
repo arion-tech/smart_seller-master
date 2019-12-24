@@ -3,7 +3,9 @@ package io.mintit.lafarge.adapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -225,11 +227,14 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         dialog.setContentView(R.layout.dialog_produuct_detail);
         ImageView imageviewClose = (ImageView) dialog.findViewById(R.id.imageview_close);
         ImageView imageviewProduct = (ImageView) dialog.findViewById(R.id.product_image);
+        ImageView imageviewColor = (ImageView) dialog.findViewById(R.id.color_Article);
         TextView textviewPproductName = (TextView) dialog.findViewById(R.id.textview_product_name);
         TextView textviewProductRef = (TextView) dialog.findViewById(R.id.textview_product_ref);
         TextView textviewProductStock = (TextView) dialog.findViewById(R.id.textview_product_stock);
         TextView textviewProductPrice = (TextView) dialog.findViewById(R.id.textview_product_price);
         TextView textviewDescription = (TextView) dialog.findViewById(R.id.textview_description);
+
+        TextView textviewtaille = (TextView) dialog.findViewById(R.id.taille_article);
         final CustomNumberPicker numberPicker = (CustomNumberPicker) dialog.findViewById(R.id.numberPicker);
         LinearLayout linearlayoutAssociateToCart = (LinearLayout) dialog.findViewById(R.id.linearlayout_associate_to_cart);
         LinearLayout linearlayoutAssociateToCartContainer = (LinearLayout) dialog.findViewById(R.id.linearlayout_associate_to_cart_container);
@@ -239,6 +244,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         textviewProductStock.setText(" " + product.getQty());
         textviewProductPrice.setText(context.getResources().getString(R.string.prix) + " " + product.getPrice() + " " + activity.getEtablissement().getCurrencyId());
         textviewDescription.setText(product.getDescription());
+        textviewtaille.setText(product.getSizeCode());
         Picasso.get().load("http://197.13.7.115:5016/botte.jpg").into(imageviewProduct);
 
         linearlayoutAssociateToCart.setOnClickListener(new View.OnClickListener() {

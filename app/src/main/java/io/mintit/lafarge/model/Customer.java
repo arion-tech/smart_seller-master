@@ -102,9 +102,9 @@ public class Customer implements Parcelable {
     @SerializedName("officePhoneNumber")
     @Expose
     private String officePhoneNumber;
-    @SerializedName("titleId")
+    @SerializedName("title")
     @Expose
-    private String titleId;
+    private String title;
     @SerializedName("userField")
     @Expose
     @Ignore
@@ -185,7 +185,7 @@ public class Customer implements Parcelable {
         this.cellularPhoneNumber = ((String) in.readValue((String.class.getClassLoader())));
         this.homePhoneNumber = ((String) in.readValue((String.class.getClassLoader())));
         this.officePhoneNumber = ((String) in.readValue((String.class.getClassLoader())));
-        this.titleId = ((String) in.readValue((String.class.getClassLoader())));
+        this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.userField = ((Object) in.readValue((Object.class.getClassLoader())));
         this.usualStoreId = ((String) in.readValue((String.class.getClassLoader())));
         this.activityCode = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -391,12 +391,12 @@ public class Customer implements Parcelable {
         this.officePhoneNumber = officePhoneNumber;
     }
 
-    public String getTitleId() {
-        return titleId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitleId(String titleId) {
-        this.titleId = titleId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Object getUserField() {
@@ -558,7 +558,7 @@ public class Customer implements Parcelable {
         dest.writeValue(cellularPhoneNumber);
         dest.writeValue(homePhoneNumber);
         dest.writeValue(officePhoneNumber);
-        dest.writeValue(titleId);
+        dest.writeValue(title);
         dest.writeValue(userField);
         dest.writeValue(usualStoreId);
         dest.writeValue(activityCode);
@@ -600,9 +600,8 @@ public class Customer implements Parcelable {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", customerId='" + customerId + '\'' +
+        return "{"+
+                "customerId='" + customerId + '\'' +
                 ", addressLine1='" + addressLine1 + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
                 ", addressLine3='" + addressLine3 + '\'' +
@@ -624,7 +623,7 @@ public class Customer implements Parcelable {
                 ", cellularPhoneNumber='" + cellularPhoneNumber + '\'' +
                 ", homePhoneNumber='" + homePhoneNumber + '\'' +
                 ", officePhoneNumber='" + officePhoneNumber + '\'' +
-                ", titleId='" + titleId + '\'' +
+                ", title='" + title + '\'' +
                 ", userField=" + userField +
                 ", usualStoreId='" + usualStoreId + '\'' +
                 ", activityCode=" + activityCode +

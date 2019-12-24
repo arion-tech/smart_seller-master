@@ -37,10 +37,15 @@ public interface ApiInterface {
     @POST("/api/v1/products/findByEtablissement")
     Call<ArrayList<Article>> getarticle(@Query("etablissement") String etablissement);
 
-
     @GET("/api/v1/categorie/findAll")
     Call<ArrayList<Category>> getcategories();
 
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/customers/retail/add")
+    Call<ResponseBody> addcustomer(@Body Customer customer);
 
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/customers/retail/findbystore")
+    Call<ArrayList<Customer>> getcustomer(@Query("Store") String Store);
 
 }

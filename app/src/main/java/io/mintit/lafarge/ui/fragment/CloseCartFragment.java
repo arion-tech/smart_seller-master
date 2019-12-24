@@ -520,7 +520,7 @@ public class CloseCartFragment extends BaseFragment {
         address.setAddressLine1(customer.getAddressLine1());
         address.setAddressLine2(customer.getAddressLine2());
         address.setAddressLine3(customer.getAddressLine3());
-        address.setTitleId(customer.getTitleId());
+        address.setTitleId(customer.getTitle());
         address.setZipCode(customer.getZipCode());
         String phone = "";
         if (customer.getCellularPhoneNumber() != null) {

@@ -28,6 +28,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.mintit.lafarge.R;
+import io.mintit.lafarge.Retrofit.ApiInterface;
+import io.mintit.lafarge.Retrofit.ApiManager;
 import io.mintit.lafarge.adapter.CustomersAdapter;
 import io.mintit.lafarge.data.Data;
 import io.mintit.lafarge.events.CustomerSelectedEvent;
@@ -37,9 +39,13 @@ import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Customer;
 import io.mintit.lafarge.model.Reservation;
 import io.mintit.lafarge.ui.activity.MainActivity;
+import io.mintit.lafarge.utils.Prefs;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -259,66 +265,31 @@ public class CustomerDirectoryFragment extends BaseFragment implements Customers
     private void loadCustomers(final String constraint){
         List<Customer> customers = new ArrayList<>();
 
-        c1.setFirstName("Abdennadher");
-        c1.setLastName("Achraf");
-        c1.setSex("Homme");
-        c1.setEmail("aaa@aa.com");
-        c1.setAddressLine1("la petite ariana, raoued, ariana, tunisie");
-        c1.setOfficePhoneNumber("55254854");
-        c1.setBirthDateDay(10);
-        c1.setBirthDateMonth(11);
-        c1.setBirthDateYear(1994);
-        c1.setId(1234);
+        loading = true;
+        ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN,getContext()));
+        Call<ArrayList<Customer>> productCall = service.getcustomer(Prefs.getPref(Prefs.STORE , getContext()));
+        productCall.enqueue(new Callback<ArrayList<Customer>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Customer>> call, Response<ArrayList<Customer>> response) {
+                ArrayList<Customer> listCustumor = response.body();
 
-        c2.setFirstName("Cherif");
-        c2.setLastName("Firas");
-        c2.setSex("Homme");
-        c2.setEmail("bbb@bb.com");
-        c2.setAddressLine1("Ghazela, raoued, ariana, tunisie");
-        c2.setOfficePhoneNumber("99630002");
-        c2.setBirthDateDay(10);
-        c2.setBirthDateMonth(10);
-        c2.setBirthDateYear(1993);
-        c2.setId(1265);
 
-        c3.setFirstName("Jallouli");
-        c3.setLastName("Hedi");
-        c3.setSex("Homme");
-        c3.setEmail("ccc@cc.com");
-        c3.setAddressLine1("L'aouina, ariana, tunisie");
-        c3.setOfficePhoneNumber("53666251");
-        c3.setBirthDateDay(23);
-        c3.setBirthDateMonth(6);
-        c3.setBirthDateYear(1995);
-        c3.setId(1874);
 
-        c4.setFirstName("Chelli");
-        c4.setLastName("Hanen");
-        c4.setSex("Femme");
-        c4.setEmail("ddd@dd.com");
-        c4.setAddressLine1("Sakiet ezzit, sfax, tunisie");
-        c4.setOfficePhoneNumber("23321129");
-        c4.setBirthDateDay(3);
-        c4.setBirthDateMonth(12);
-        c4.setBirthDateYear(1990);
-        c4.setId(2234);
+                listCustomer.addAll(listCustumor);
+                //Data.getInstance().setListCustomers(listCustomer);//!constraint
+                initData(listCustomer);
+                loading = false;
 
-        c5.setFirstName("Hichri");
-        c5.setLastName("Amal");
-        c5.setSex("Femme");
-        c5.setEmail("eee@ee.com");
-        c5.setAddressLine1("la petite ariana, raoued, ariana, tunisie");
-        c5.setOfficePhoneNumber("90805080");
-        c5.setBirthDateDay(19);
-        c5.setBirthDateMonth(5);
-        c5.setBirthDateYear(1989);
-        c5.setId(6520);
 
-        customers.add(c1);
-        customers.add(c2);
-        customers.add(c3);
-        customers.add(c4);
-        customers.add(c5);
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Customer>> call, Throwable throwable){
+                System.out.println("service product : " + throwable.toString());
+            }
+        });
+
 
         if(customers.size()>0){
             if(TextUtils.isEmpty(constraint)) {
