@@ -24,6 +24,7 @@ import io.mintit.lafarge.utils.DebugLog;
  */
 
 public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     ArrayList<Category> categoriesList = new ArrayList<>();
     ArrayList<Category> initialList = new ArrayList<>();
     Context context;

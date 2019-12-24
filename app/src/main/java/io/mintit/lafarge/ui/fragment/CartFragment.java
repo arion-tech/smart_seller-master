@@ -299,7 +299,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         cart = new Cart();
         linearLayoutSubmitCart.setEnabled(true);
         cart.setId(Utils.generateTimestamp());
-        System.out.println("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII CART ID : " + cart.getId());
+        System.out.println("IIIIIIIIIIIIIIII CART ID : " + cart.getId());
         /*if (activity.getDaily() != null) {
             cart.setDailyID(activity.getDaily().getId());
         }*/
