@@ -559,7 +559,7 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
         cart.setAgentName(activity.getSellerLogin().getLibelle());
         cart.setCurrencyId(activity.getEtablissement().getCurrencyId());
         cart.setCompany(mCustomer.getIsCompany());
-        cart.setCustomer(mCustomer.getId()+"");
+        cart.setCustomer(mCustomer.getCustomerId()+"");
         cart.setCustomerFirstName(mCustomer.getFirstName());
         cart.setCustomerLastName(mCustomer.getLastName());
         cart.setLastModification(Utils.generateTimestamp());

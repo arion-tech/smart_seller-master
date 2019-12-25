@@ -318,12 +318,13 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
             cardViewContainer.requestLayout();
         }
         //relativeLayoutAddToCart.setVisibility(selectItem ? View.INVISIBLE : View.GONE);
-        relativeLayoutAddToCart.setVisibility(selectItem ? View.VISIBLE : View.GONE);
+        //relativeLayoutAddToCart.setVisibility(selectItem ? View.VISIBLE : View.GONE);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewProducts.setLayoutManager(layoutManager);
 
         boolean isCartClosed;
+
 
 
         if(cart == null || cart.getClosed() == null){

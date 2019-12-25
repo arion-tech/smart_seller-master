@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.mintit.lafarge.DBRoom.DBLafarge;
 import io.mintit.lafarge.R;
 import io.mintit.lafarge.Retrofit.ApiInterface;
 import io.mintit.lafarge.Retrofit.ApiManager;
@@ -40,7 +42,11 @@ import io.mintit.lafarge.model.Customer;
 import io.mintit.lafarge.model.Reservation;
 import io.mintit.lafarge.ui.activity.MainActivity;
 import io.mintit.lafarge.utils.Prefs;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
@@ -87,26 +93,10 @@ public class CustomerDirectoryFragment extends BaseFragment implements Customers
     //private int pastVisiblesItems;
     //private boolean end_reached = false;
     private boolean loading;
-
+    private DBLafarge lafargeDatabase;
     private ArrayList<Customer> searchedCustomersList = new ArrayList<>();
 
-    //-------
-    Customer c1 = new Customer();
-    Customer c2 = new Customer();
-    Customer c3= new Customer();
-    Customer c4 = new Customer();
-    Customer c5 = new Customer();
-    //-------
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param cart
-     * @param isCompany
-     * @return A new instance of fragment CustomerDire  ctoryFragment.
-     */
     public static CustomerDirectoryFragment newInstance( boolean selectCustomer, Cart cart, boolean isCompany) {
         CustomerDirectoryFragment fragment = new CustomerDirectoryFragment();
         Bundle args = new Bundle();
@@ -264,7 +254,6 @@ public class CustomerDirectoryFragment extends BaseFragment implements Customers
     @SuppressLint("CheckResult")
     private void loadCustomers(final String constraint){
         List<Customer> customers = new ArrayList<>();
-
         loading = true;
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN,getContext()));
         Call<ArrayList<Customer>> productCall = service.getcustomer(Prefs.getPref(Prefs.STORE , getContext()));
@@ -272,16 +261,11 @@ public class CustomerDirectoryFragment extends BaseFragment implements Customers
             @Override
             public void onResponse(Call<ArrayList<Customer>> call, Response<ArrayList<Customer>> response) {
                 ArrayList<Customer> listCustumor = response.body();
-
-
-
                 listCustomer.addAll(listCustumor);
+                addCustomers(listCustumor);
                 //Data.getInstance().setListCustomers(listCustomer);//!constraint
                 initData(listCustomer);
                 loading = false;
-
-
-
             }
 
             @Override
@@ -368,6 +352,34 @@ public class CustomerDirectoryFragment extends BaseFragment implements Customers
                 }
             });
         }
+    }
+
+
+    private void addCustomers(final List<Customer> customers) {
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() {
+                lafargeDatabase.customerDao().deleteAndInsertCustomers(customers);
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+                    @Override
+                    public void onComplete() {
+
+                        Log.d("*****ROOM SUCCESS*****", "*********Customers**********");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("ERROR ROOM Customers", e.getMessage());
+                    }
+                });
     }
 
     @Override

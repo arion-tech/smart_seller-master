@@ -272,6 +272,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
                         } else {
                             cart.setSellerLibelle(sellersAdapter.getSelectedSeller().getUtilisateur());
                             cart.setSellerLibelle(sellersAdapter.getSelectedSeller().getLibelle());
+
                             dialog.dismiss();
                             //textViewSeller.setText(cart.getSellerLibelle());
 
@@ -299,7 +300,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         cart = new Cart();
         linearLayoutSubmitCart.setEnabled(true);
         cart.setId(Utils.generateTimestamp());
-        System.out.println("IIIIIIIIIIIIIIII CART ID : " + cart.getId());
+        System.out.println("IIIIIIIIIIIIIIII CART ID : " + cart.getCustomer());
         /*if (activity.getDaily() != null) {
             cart.setDailyID(activity.getDaily().getId());
         }*/
@@ -310,11 +311,14 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         cart.setAgentID(activity.getSellerLogin().getId()+"");
         cart.setAgentName(activity.getSellerLogin().getLibelle());
         cart.setSellerLibelle(selectedSeller.getLibelle());
         cart.setSellerId(selectedSeller.getId()+"");
         cart.setCurrencyId(activity.getEtablissement().getCurrencyId());
+
+
         productsAdapter.clear();
         updateTotal();
         initWithWalkthroughCustomer();
@@ -442,7 +446,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         if (event.getCustomer() != null) {
             //switchPriceMode.setEnabled(false);
             //cart.setCompany(switchPriceMode.isChecked());
-            cart.setCustomer(event.getCustomer().getId() + "");
+            cart.setCustomer(event.getCustomer().getCustomerId() + "");
             cart.setCustomerFirstName(event.getCustomer().getFirstName());
             cart.setCustomerLastName(event.getCustomer().getLastName());
             updateCart();
@@ -719,6 +723,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
                         Utils.showAlert(getString(R.string.error_message_non_complete_cart), activity, null, false, true);
                     } else {
                         activity.addFragment(CloseCartFragment.newInstance(cart, ""), "", true);
+                        System.out.println("SUBMITEEEEEEEEEEEED CAAART  :  " + cart.toString());
                     }
                 } else {
                     Utils.showAlert(getString(R.string.error_message_non_complete_cart), activity, null, false, true);

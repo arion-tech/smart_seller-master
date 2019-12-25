@@ -232,7 +232,6 @@ public class CloseCartFragment extends BaseFragment {
         if (mCart.getCustomer() != null) {
             textviewCustomerName.setText(mCart.getCustomerLastName() + " " + mCart.getCustomerFirstName());
             getCustomer();
-
         }
         listProducts = mCart.getProductList();
         productsAdapter.addAll(listProducts);
@@ -249,21 +248,27 @@ public class CloseCartFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void getCustomer() {
-        activity.getLafargeDatabase().customerDao().getCustomersByIdOrName(mCart.getCustomer(), mCart.getCustomerFirstName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Customer>>() {
-                    @Override
-                    public void accept(List<Customer> customers) {
-                        if (customers.size() > 0) {
-                            customer = customers.get(0);
-                            textviewAddress.setText(customer.getAddressLine1());
-                            textviewEmail.setText(customer.getEmail());
-                            edittextEmail.setText(customer.getEmail());
-                            initViews();
+        try {
+            activity.getLafargeDatabase().customerDao().getCustomersByIdOrName(mCart.getCustomer(), mCart.getCustomerFirstName())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Customer>>() {
+                        @Override
+                        public void accept(List<Customer> customers) {
+                            if (customers.size() > 0) {
+                                customer = customers.get(0);
+                                textviewAddress.setText(customer.getAddressLine1());
+                                textviewEmail.setText(customer.getEmail());
+                                edittextEmail.setText(customer.getEmail());
+                                initViews();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        catch (Exception ex)
+        {
+            System.out.println(" : " + ex.getMessage());
+        }
     }
 
     private void initViews() {
@@ -507,23 +512,23 @@ public class CloseCartFragment extends BaseFragment {
         salesDocument.setStoreId("999");
         salesDocument.setDeliveryStoreId(activity.getEtablissement().getCodeEtablissement());
 
-        if (customer.getCustomerId()!=null && !TextUtils.isEmpty(customer.getCustomerId())) {
-            salesDocument.setCustomerId(customer.getCustomerId());
+        if (mCart.getCustomer()!= null && !TextUtils.isEmpty(mCart.getCustomer())) {
+            salesDocument.setCustomerId(mCart.getCustomer());
         } else {
             salesDocument.setCustmerReference(customer.getReference());
         }
         Address address = new Address();
-        address.setCity(customer.getCity());
-        address.setCountryId(customer.getCountryId());
-        address.setFirstName(customer.getFirstName());
-        address.setLastName(customer.getLastName());
-        address.setAddressLine1(customer.getAddressLine1());
-        address.setAddressLine2(customer.getAddressLine2());
-        address.setAddressLine3(customer.getAddressLine3());
-        address.setTitleId(customer.getTitle());
-        address.setZipCode(customer.getZipCode());
+        address.setCity("");
+        address.setCountryId("");
+        address.setFirstName(mCart.getCustomerFirstName());
+        address.setLastName(mCart.getCustomerLastName());
+        address.setAddressLine1(mCart.getCustomerAddress());
+        address.setAddressLine2("");
+        address.setAddressLine3("");
+        address.setTitleId("");
+        address.setZipCode("");
         String phone = "";
-        if (customer.getCellularPhoneNumber() != null) {
+        /*if (customer.getCellularPhoneNumber() != null) {
             phone = customer.getCellularPhoneNumber();
         }
         if (customer.getHomePhoneNumber() != null) {
@@ -534,8 +539,8 @@ public class CloseCartFragment extends BaseFragment {
         }
         if (customer.getAlternatePhoneNumber() != null) {
             phone = customer.getAlternatePhoneNumber();
-        }
-        address.setPhoneNumber(phone);
+        }*/
+        address.setPhoneNumber("");
         salesDocument.setAddress(address);
         ArrayList<Commande> commandes = new ArrayList<>();
         for (int i = 0; i < mCart.getProductList().size(); i++) {

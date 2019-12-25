@@ -182,7 +182,7 @@ public class SynchronisationManager {
         //TODO setup etablissement code
         headers.put("Authorization", appAuthentication.getTokenType() + " " + appAuthentication.getAccessToken());
         HashMap<String, String> queryParams = new HashMap<>();
-        queryParams.put("codeEtablissement", "200");
+        queryParams.put("codeEtablissement", "101");
         wsRequestsManager.sendRequest(path, queryParams, null, null, WSRequestsManager.GET, headers, new WSRequestsManager.OnRequestResponselistener() {
             @Override
             public void OnRequestResponse(String response) {
