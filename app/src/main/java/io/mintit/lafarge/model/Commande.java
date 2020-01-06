@@ -44,9 +44,9 @@ public class Commande implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("article")
+    @SerializedName("product")
     @Expose
-    private Article article;
+    private Product product;
 
     public Commande() {
     }
@@ -145,12 +145,12 @@ public class Commande implements Parcelable {
         return 0;
     }
 
-    public Article getArticle() {
-        return article;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

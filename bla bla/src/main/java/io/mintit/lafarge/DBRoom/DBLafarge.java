@@ -23,7 +23,7 @@ import io.mintit.lafarge.model.User;
 @Database(entities = {Inventory.class,User.class,Seller.class,Tarif.class,Stock.class,
         Dimension.class,Category.class,Supplier.class,CategoryByArticle.class,
         InventoryArticle.class,Customer.class, Cart.class, Daily.class,Purchase.class,
-        ActionRequest.class, Article.class}, version = 24)
+        ActionRequest.class, Article.class}, version = 25)
 public abstract class DBLafarge extends RoomDatabase {
     public abstract InventoryDao inventoryDao();
     public abstract UserDao userDao();

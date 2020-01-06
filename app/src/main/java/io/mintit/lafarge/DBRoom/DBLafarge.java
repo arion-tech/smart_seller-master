@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 import io.mintit.lafarge.model.ActionRequest;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.CategoryByArticle;
@@ -23,7 +23,7 @@ import io.mintit.lafarge.model.User;
 @Database(entities = {Inventory.class,User.class,Seller.class,Tarif.class,Stock.class,
         Dimension.class,Category.class,Supplier.class,CategoryByArticle.class,
         InventoryArticle.class,Customer.class, Cart.class, Daily.class,Purchase.class,
-        ActionRequest.class, Article.class}, version = 24)
+        ActionRequest.class, Product.class}, version = 25)
 public abstract class DBLafarge extends RoomDatabase {
     public abstract InventoryDao inventoryDao();
     public abstract UserDao userDao();
@@ -39,7 +39,6 @@ public abstract class DBLafarge extends RoomDatabase {
     public abstract PurchaseDao purchaseDao();
     public abstract ActionRequestDao actionRequestDao();
     public abstract ArticleDao articleDao();
-
 }
 
 

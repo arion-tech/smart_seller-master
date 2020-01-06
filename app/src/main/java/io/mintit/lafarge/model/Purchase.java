@@ -39,7 +39,7 @@ public class Purchase implements Parcelable {
     @SerializedName("product_list")
     @Expose
     @TypeConverters(ListArticleConverter.class)
-    private ArrayList<Article> productList = new ArrayList<>();
+    private ArrayList<Product> productList = new ArrayList<>();
     @SerializedName("date")
     @Expose
     private long date;
@@ -59,7 +59,7 @@ public class Purchase implements Parcelable {
     protected Purchase(Parcel in) {
         this.supplier = in.readString();
         this.id = in.readString();
-        this.productList = in.createTypedArrayList(Article.CREATOR);
+        this.productList = in.createTypedArrayList(Product.CREATOR);
         this.date = in.readLong();
         this.validated = in.readByte() != 0;
         this.totalQte = in.readInt();
@@ -86,11 +86,11 @@ public class Purchase implements Parcelable {
         this.supplier = supplier;
     }
     @TypeConverters(ListArticleConverter.class)
-    public ArrayList<Article> getProductList() {
+    public ArrayList<Product> getProductList() {
         return productList;
     }
     @TypeConverters(ListArticleConverter.class)
-    public void setProductList(ArrayList<Article> productList) {
+    public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 

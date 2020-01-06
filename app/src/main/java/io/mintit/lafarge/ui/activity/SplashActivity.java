@@ -552,10 +552,10 @@ public class SplashActivity extends AppCompatActivity {
                 if (response != null) {
                     try {
                         JSONArray jsonArrayResponse = new JSONArray(response);
-                        List<Article> articles = new ArrayList<>();
+                        List<Product> articles = new ArrayList<>();
                         if (jsonArrayResponse.length() > 0) {
                             for (int i = 0; i < jsonArrayResponse.length(); i++) {
-                                final Article article = gson.fromJson(jsonArrayResponse.getJSONObject(i).toString(), Article.class);
+                                final Product article = gson.fromJson(jsonArrayResponse.getJSONObject(i).toString(), Product.class);
 
                                 articles.add(article);
                             }
@@ -580,7 +580,7 @@ public class SplashActivity extends AppCompatActivity {
     */
 
     /*
-    private void addArticleDB(final List<Article> articles) {
+    private void addArticleDB(final List<Product> articles) {
         Completable.fromAction(new Action() {
             @Override
             public void run() {

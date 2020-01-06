@@ -3,9 +3,7 @@ package io.mintit.lafarge.adapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,13 +29,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.mintit.lafarge.R;
-import io.mintit.lafarge.data.Data;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.CategoryByArticle;
 import io.mintit.lafarge.model.Stock;
 import io.mintit.lafarge.model.Tarif;
 import io.mintit.lafarge.ui.activity.MainActivity;
-import io.mintit.lafarge.ui.fragment.ProductsFragment;
 import io.mintit.lafarge.ui.widget.CustomNumberPicker;
 import io.mintit.lafarge.utils.DebugLog;
 import io.mintit.lafarge.utils.Prefs;
@@ -52,8 +48,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private final boolean associateToCart;
-    public ArrayList<Article> productsList = new ArrayList<>();
-    ArrayList<Article> initialProductsList = new ArrayList<>();
+    public ArrayList<Product> productsList = new ArrayList<>();
+    ArrayList<Product> initialProductsList = new ArrayList<>();
     Context context;
     OnItemClickListener onItemClickListener;
     //private boolean history = false;
@@ -62,7 +58,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean cartList;
     private boolean selectProduct;
     private ItemFilter mFilter = new ItemFilter();
-    ArrayList<Article> listProductsTemp = new ArrayList<>();
+    ArrayList<Product> listProductsTemp = new ArrayList<>();
     private int cartQte = 1;
     private boolean isClosed;
 
@@ -74,7 +70,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private boolean profileList = false;
 
-    public ProductsAdapter(ArrayList<Article> productsList, Context context, MainActivity activity, boolean associateToCart, boolean isClosed) {
+    public ProductsAdapter(ArrayList<Product> productsList, Context context, MainActivity activity, boolean associateToCart, boolean isClosed) {
         this.productsList.addAll(productsList);
         this.initialProductsList.addAll(productsList);
         this.context = context;
@@ -99,7 +95,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return new ViewHolder(v);
     }
 
-    public void addAll(ArrayList<Article> products) {
+    public void addAll(ArrayList<Product> products) {
         if(products != null) {
             productsList.clear();
             productsList.addAll(products);
@@ -109,7 +105,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void insertAll(ArrayList<Article> products) {
+    public void insertAll(ArrayList<Product> products) {
         productsList.addAll(products);
         initialProductsList.addAll(products);
         notifyItemRangeInserted(productsList.size() - products.size(), products.size());
@@ -120,7 +116,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder mViewHolder = (ViewHolder) holder;
         if (productsList.size() > 0) {
-            final Article product = productsList.get(position);
+            final Product product = productsList.get(position);
             mViewHolder.textviewProductName.setText(product.getName());
             mViewHolder.textviewProductRef.setText(product.getProductCode());
             mViewHolder.editTextProductStock.setText(String.valueOf(product.getQty()));
@@ -219,7 +215,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.cartQte = cartQte;
     }
 
-    private void showProductDetailsDialog(final Article product, boolean associateToCart) {
+    private void showProductDetailsDialog(final Product product, boolean associateToCart) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -300,7 +296,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
 
-    public void add(Article product) {
+    public void add(Product product) {
         productsList.add(product);
         notifyItemInserted(productsList.size() - 1);
     }
@@ -364,21 +360,21 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         activity.getLafargeDatabase().articleDao().getArticleByStock()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Article>>() {
+                .subscribe(new Consumer<List<Product>>() {
                     @Override
-                    public void accept(List<Article> articles) {
-                        if (articles.size() > 0) {
-                            for (int i = 0; i < articles.size(); i++) {
-                                if (idArticlesList.contains(articles.get(i).getId())) {
-                                    if (stockCodeArticle.contains(articles.get(i).getProductCode())) {
-                                        articles.get(i).setStock(stocks.get(stockCodeArticle.indexOf(articles.get(i).getProductCode())).getQuantity());
+                    public void accept(List<Product> products) {
+                        if (products.size() > 0) {
+                            for (int i = 0; i < products.size(); i++) {
+                                if (idArticlesList.contains(products.get(i).getId())) {
+                                    if (stockCodeArticle.contains(products.get(i).getProductCode())) {
+                                        products.get(i).setStock(stocks.get(stockCodeArticle.indexOf(products.get(i).getProductCode())).getQuantity());
                                     }
 
-                                    if (tarifsCodeArticle.contains(articles.get(i).getProductCode())) {
-                                        articles.get(i).setPrice(tarifs.get(tarifsCodeArticle.indexOf(articles.get(i).getProductCode())).getPrice());
+                                    if (tarifsCodeArticle.contains(products.get(i).getProductCode())) {
+                                        products.get(i).setPrice(tarifs.get(tarifsCodeArticle.indexOf(products.get(i).getProductCode())).getPrice());
                                     }
 
-                                    productsList.add(articles.get(i));
+                                    productsList.add(products.get(i));
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -404,10 +400,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     @SuppressLint("CheckResult")
-    private Double getTarification(Article article, final String tarif) {
+    private Double getTarification(Product product, final String tarif) {
         final double[] price = new double[1];
-        price[0] = article.getPrice();
-        activity.getLafargeDatabase().tarifDao().getTarifByCodeArticleAndRegimePrix(article.getProductCode(), tarif)
+        price[0] = product.getPrice();
+        activity.getLafargeDatabase().tarifDao().getTarifByCodeArticleAndRegimePrix(product.getProductCode(), tarif)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Tarif>>() {
@@ -429,7 +425,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-    public void addProducts(ArrayList<Article> productsList) {
+    public void addProducts(ArrayList<Product> productsList) {
         if (productsList.size() > 0) {
             listProductsTemp.clear();
             int initSize = getItemCount();
@@ -460,7 +456,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public void updateItem(Article pos) {
+    public void updateItem(Product pos) {
         for (int i = 0; i < productsList.size(); i++) {
             if (productsList.get(i).getId().equals(pos.getId())) {
                 productsList.remove(i);
@@ -472,7 +468,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public void removeItem(Article pos) {
+    public void removeItem(Product pos) {
         DebugLog.d("" + (productsList.size()));
         for (int i = 0; i < productsList.size(); i++) {
             if (productsList.get(i).getId().equals(pos.getId())) {
@@ -483,7 +479,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void reset(ArrayList<Article> listProducts) {
+    public void reset(ArrayList<Product> listProducts) {
         this.productsList.clear();
         this.productsList.addAll(initialProductsList);
         notifyDataSetChanged();
@@ -512,13 +508,13 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Article product);
+        void onItemClick(Product product);
 
-        void onItemAdd(Article product, int pickedNumber, boolean fromdetail);
+        void onItemAdd(Product product, int pickedNumber, boolean fromdetail);
 
-        void onItemUpdate(Article product);
+        void onItemUpdate(Product product);
 
-        void onItemRemove(Article product);
+        void onItemRemove(Product product);
 
     }
 
@@ -530,11 +526,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             FilterResults results = new FilterResults();
 
-            final ArrayList<Article> list = new ArrayList<>();
+            final ArrayList<Product> list = new ArrayList<>();
             list.addAll(productsList);
 
             int count = list.size();
-            final ArrayList<Article> nlist = new ArrayList<Article>(count);
+            final ArrayList<Product> nlist = new ArrayList<Product>(count);
 
             String filterableString;
 
@@ -557,7 +553,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             productsList.clear();
             if (results.values != null) {
                 DebugLog.d("" + (results.values != null));
-                productsList.addAll((ArrayList<Article>) results.values);
+                productsList.addAll((ArrayList<Product>) results.values);
                 DebugLog.d("" + (productsList.size()));
             }
             notifyDataSetChanged();

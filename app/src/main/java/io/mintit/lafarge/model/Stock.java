@@ -14,7 +14,7 @@ public class Stock {
 
     @SerializedName("article")
     @Ignore
-    private Article mArticle;
+    private Product mProduct;
     @SerializedName("codeArticle")
     private String mCodeArticle;
     @SerializedName("codeDepo")
@@ -30,12 +30,12 @@ public class Stock {
     @SerializedName("quantity")
     private int mQuantity;
 
-    public Article getArticle() {
-        return mArticle;
+    public Product getArticle() {
+        return mProduct;
     }
 
-    public void setArticle(Article article) {
-        mArticle = article;
+    public void setArticle(Product product) {
+        mProduct = product;
     }
 
     public String getCodeArticle() {

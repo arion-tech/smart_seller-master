@@ -17,7 +17,7 @@ public class Tarif implements Parcelable {
 
     @SerializedName("articles")
     @Ignore
-    private List<Article> mArticles;
+    private List<Product> mProducts;
     @SerializedName("codeArticle")
     private String mCodeArticle;
     @SerializedName("codeBarre")
@@ -67,12 +67,12 @@ public class Tarif implements Parcelable {
         this.regimePrix = regimePrix;
     }
 
-    public List<Article> getArticles() {
-        return mArticles;
+    public List<Product> getArticles() {
+        return mProducts;
     }
 
-    public void setArticles(List<Article> articles) {
-        mArticles = articles;
+    public void setArticles(List<Product> products) {
+        mProducts = products;
     }
 
     public String getCodeArticle() {
@@ -162,7 +162,7 @@ public class Tarif implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.mArticles);
+        dest.writeTypedList(this.mProducts);
         dest.writeString(this.mCodeArticle);
         dest.writeString(this.mCodeBarre);
         dest.writeString(this.mCodeFamily);
@@ -178,7 +178,7 @@ public class Tarif implements Parcelable {
     }
 
     protected Tarif(Parcel in) {
-        this.mArticles = in.createTypedArrayList(Article.CREATOR);
+        this.mProducts = in.createTypedArrayList(Product.CREATOR);
         this.mCodeArticle = in.readString();
         this.mCodeBarre = in.readString();
         this.mCodeFamily = in.readString();

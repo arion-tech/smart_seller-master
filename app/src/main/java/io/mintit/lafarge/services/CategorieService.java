@@ -1,17 +1,14 @@
 package io.mintit.lafarge.services;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
 import io.mintit.lafarge.Retrofit.ApiInterface;
 import io.mintit.lafarge.Retrofit.ApiManager;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.utils.Prefs;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +16,7 @@ import retrofit2.Response;
 
 public class CategorieService extends Service {
 
-    ArrayList<Article> listProducts = new ArrayList<>();
+    ArrayList<Product> listProducts = new ArrayList<>();
 
 
     @Override
@@ -31,16 +28,16 @@ public class CategorieService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN,getApplicationContext()));
-        Call<ArrayList<Article>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getApplicationContext()));
-        productCall.enqueue(new Callback<ArrayList<Article>>() {
+        Call<ArrayList<Product>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getApplicationContext()));
+        productCall.enqueue(new Callback<ArrayList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<Article>> call, Response<ArrayList<Article>> response) {
-                ArrayList<Article> listArticle = response.body();
-                System.out.println("service product : " + listArticle);
-                for(Article s: listArticle){
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> listProduct = response.body();
+                System.out.println("service product : " + listProduct);
+                for(Product s: listProduct){
 
                     System.out.println("service product : " + s.toString());
-                    Article p = new Article();
+                    Product p = new Product();
                     p.setId(s.getId());
                     p.setPrice(s.getPrice());
                     p.setName(s.getName());
@@ -54,7 +51,7 @@ public class CategorieService extends Service {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Article>> call, Throwable throwable){}
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable){}
         });
 
         return super.onStartCommand(intent, flags, startId);

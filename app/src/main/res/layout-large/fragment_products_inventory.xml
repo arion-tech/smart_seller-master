@@ -158,6 +158,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="invisible"
-        android:text="no article for this inventory"/>
+        android:text="no product for this inventory"/>
 
 </RelativeLayout>

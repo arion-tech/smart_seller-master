@@ -50,7 +50,7 @@ public class Category implements Parcelable {
 
     @SerializedName("articles")
     @Ignore
-    private List<Article> mArticles;
+    private List<Product> mProducts;
     @SerializedName("description")
     private String mDescription;
     @SerializedName("families")
@@ -65,7 +65,7 @@ public class Category implements Parcelable {
     }
 
     protected Category(Parcel in) {
-        this.mArticles = in.createTypedArrayList(Article.CREATOR);
+        this.mProducts = in.createTypedArrayList(Product.CREATOR);
         this.mChildren = new ArrayList<Category>();
         in.readList(this.mChildren, Child.class.getClassLoader());
         this.mCode = in.readString();
@@ -87,12 +87,12 @@ public class Category implements Parcelable {
         this.rank = rank;
     }
 
-    public List<Article> getArticles() {
-        return mArticles;
+    public List<Product> getArticles() {
+        return mProducts;
     }
 
-    public void setArticles(List<Article> articles) {
-        mArticles = articles;
+    public void setArticles(List<Product> products) {
+        mProducts = products;
     }
     @TypeConverters(ListCategoryConverter.class)
     public ArrayList<Category> getChildren() {
@@ -174,7 +174,7 @@ public class Category implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.mArticles);
+        dest.writeTypedList(this.mProducts);
         dest.writeList(this.mChildren);
         dest.writeString(this.mCode);
         dest.writeString(this.mCodeParent);

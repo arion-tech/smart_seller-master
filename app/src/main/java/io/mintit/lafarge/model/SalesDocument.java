@@ -29,16 +29,12 @@ public class SalesDocument implements Parcelable {
     private String mDeliveryStoreId;
     @SerializedName("deliveryType")
     private String mDeliveryType;
-
     @SerializedName("followUpStatus")
     private String mFollowUpStatus;
     @SerializedName("internalReference")
     private String mInternalReference;
-
     @SerializedName("linesUnmodifiable")
     private Boolean mLinesUnmodifiable;
-
-
     @SerializedName("origin")
     private String mOrigin;
     @SerializedName("paymentStatus")

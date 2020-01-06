@@ -15,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,7 +22,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,20 +32,18 @@ import io.mintit.lafarge.adapter.ProductsAdapter;
 import io.mintit.lafarge.adapter.SalesAdapter;
 import io.mintit.lafarge.events.CustomerSelectedEvent;
 import io.mintit.lafarge.events.UpdateCustomerInfoEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.Customer;
 import io.mintit.lafarge.model.Reservation;
 import io.mintit.lafarge.ui.activity.MainActivity;
-import io.mintit.lafarge.utils.DebugLog;
 import io.mintit.lafarge.utils.Utils;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -108,9 +104,9 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
     private ProductsAdapter productsAdapter;
     private ProductsAdapter productsAdapterWhihshlist;
     private ProductsAdapter productsAdapterRecommendation;
-    private ArrayList<Article> listProducts = new ArrayList<>();
-    private ArrayList<Article> listProductsWhishlist = new ArrayList<>();
-    private ArrayList<Article> listProductsRecommendation = new ArrayList<>();
+    private ArrayList<Product> listProducts = new ArrayList<>();
+    private ArrayList<Product> listProductsWhishlist = new ArrayList<>();
+    private ArrayList<Product> listProductsRecommendation = new ArrayList<>();
     private ArrayList<Cart> listCarts = new ArrayList<>();
     private SalesAdapter salesAdapter;
     private boolean selectMode;
@@ -121,9 +117,9 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
     private Cart c2 = new Cart();
     ArrayList<Cart> myListCarts = new ArrayList<>();
 
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
     Category cat1 = new Category();
 
 
@@ -227,10 +223,10 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
         p3.setCategory(cat1);
         p3.setEanCode("2222");
 
-        ArrayList<Article> listProductForCart = new ArrayList<>();
+        ArrayList<Product> listProductForCart = new ArrayList<>();
         listProductForCart.add(p1);
         listProductForCart.add(p2);
-        ArrayList<Article> listProductForCart2 = new ArrayList<>();
+        ArrayList<Product> listProductForCart2 = new ArrayList<>();
         listProductForCart2.add(p3);
         //------------
         c1.setAgentID(String.valueOf(activity.getSellerLogin().getId()));
@@ -309,11 +305,11 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
                 cart = carts.get(i);
                 for (int j = 0; j < cart.getProductList().size(); j++) {
                     // TODO: 24/10/18 fix this when getarticle fixed
-                    Article article = cart.getProductList().get(j);
-                    article.setDate(cart.getDate());
-                    listProducts.add(article);
-                    listProductsWhishlist.add(article);
-                    listProductsRecommendation.add(article);
+                    Product product = cart.getProductList().get(j);
+                    product.setDate(cart.getDate());
+                    listProducts.add(product);
+                    listProductsWhishlist.add(product);
+                    listProductsRecommendation.add(product);
                 }
                 initData();
             }
@@ -340,7 +336,7 @@ public class CustomerProfileFragment extends BaseFragment implements SalesAdapte
         }
     }
 
-    /*private boolean exists(Article article) {
+    /*private boolean exists(Product article) {
         for (int i = 0; i < listProducts.size(); i++) {
             DebugLog.d(listProducts.get(i).getCodeBarre() + " --> " + (article.getCodeBarre()));
             if (listProducts.get(i).getCodeBarre().equals(article.getCodeBarre())) {

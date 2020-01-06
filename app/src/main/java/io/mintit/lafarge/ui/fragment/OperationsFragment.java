@@ -42,7 +42,6 @@ public class OperationsFragment extends BaseFragment {
     private boolean loading;
     private OperationsAdapter operationsAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -113,7 +112,6 @@ public class OperationsFragment extends BaseFragment {
                     }
                 });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

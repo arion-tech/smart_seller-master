@@ -41,7 +41,7 @@ import io.mintit.lafarge.adapter.SuppliersAdapter;
 import io.mintit.lafarge.data.Data;
 import io.mintit.lafarge.events.ProductSelectedEvent;
 import io.mintit.lafarge.events.PurchaseOrderEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Purchase;
 import io.mintit.lafarge.model.Supplier;
@@ -134,7 +134,7 @@ public class NewPurchaseFragment extends BaseFragment implements ProductsAdapter
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewProducts.setLayoutManager(layoutManager);
-        productsAdapter = new ProductsAdapter(mPurchase != null ? purchase.getProductList() : new ArrayList<Article>(), activity, activity, true,false);
+        productsAdapter = new ProductsAdapter(mPurchase != null ? purchase.getProductList() : new ArrayList<Product>(), activity, activity, true,false);
         recyclerViewProducts.setAdapter(productsAdapter);
         productsAdapter.setOnItemClickListener(this);
         productsAdapter.setCartList(true);
@@ -148,7 +148,7 @@ public class NewPurchaseFragment extends BaseFragment implements ProductsAdapter
     public void onProductSelectedEvent(ProductSelectedEvent event) {
         boolean found = false;
         if (event.getProduct() != null) {
-            Article product = event.getProduct();
+            Product product = event.getProduct();
             for (int i = 0; i < purchase.getProductList().size(); i++) {
                 if (purchase.getProductList().get(i).getEanCode().equals(product.getProductCode())) {
                     purchase.getProductList().get(i).setQty(purchase.getProductList().get(i).getQty() + event.getQte());
@@ -264,22 +264,22 @@ public class NewPurchaseFragment extends BaseFragment implements ProductsAdapter
     }
 
     @Override
-    public void onItemClick(Article product) {
+    public void onItemClick(Product product) {
 
     }
 
     @Override
-    public void onItemAdd(Article product, int pickedNumber, boolean fromDetail) {
+    public void onItemAdd(Product product, int pickedNumber, boolean fromDetail) {
         product.getProductCode();
     }
 
     @Override
-    public void onItemUpdate(Article product) {
+    public void onItemUpdate(Product product) {
 
     }
 
     @Override
-    public void onItemRemove(Article product) {
+    public void onItemRemove(Product product) {
         purchase.getProductList().remove(product);
         productsAdapter.removeItem(product);
     }

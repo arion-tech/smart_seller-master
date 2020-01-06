@@ -30,7 +30,7 @@ public class Dimension implements Parcelable {
     private String mAbregeFamily;
     @SerializedName("articles")
     @Ignore
-    private List<Article> mArticles;
+    private List<Product> mProducts;
     @SerializedName("code")
     private String mCode;
     @SerializedName("codeFamily")
@@ -52,7 +52,7 @@ public class Dimension implements Parcelable {
 
     protected Dimension(Parcel in) {
         this.mAbregeFamily = in.readString();
-        this.mArticles = in.createTypedArrayList(Article.CREATOR);
+        this.mProducts = in.createTypedArrayList(Product.CREATOR);
         this.mCode = in.readString();
         this.mCodeFamily = in.readString();
         this.mCodeType = in.readString();
@@ -70,12 +70,12 @@ public class Dimension implements Parcelable {
         mAbregeFamily = abregeFamily;
     }
 
-    public List<Article> getArticles() {
-        return mArticles;
+    public List<Product> getArticles() {
+        return mProducts;
     }
 
-    public void setArticles(List<Article> articles) {
-        mArticles = articles;
+    public void setArticles(List<Product> products) {
+        mProducts = products;
     }
 
     public String getCode() {
@@ -142,7 +142,7 @@ public class Dimension implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.mAbregeFamily);
-        dest.writeTypedList(this.mArticles);
+        dest.writeTypedList(this.mProducts);
         dest.writeString(this.mCode);
         dest.writeString(this.mCodeFamily);
         dest.writeString(this.mCodeType);

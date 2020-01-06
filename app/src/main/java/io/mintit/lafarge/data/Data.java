@@ -3,7 +3,7 @@ package io.mintit.lafarge.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.Customer;
@@ -17,14 +17,14 @@ import io.mintit.lafarge.model.Supplier;
 
 public class Data {
     private static final Data ourInstance = new Data();
-    private ArrayList<Article> listProducts;
+    private ArrayList<Product> listProducts;
     private ArrayList<Customer> listCustomers;
     private ArrayList<Cart> listCarts;
     private ArrayList<Category> categoriesList;
     private List<Seller> listSellers;
     private ArrayList<Purchase> purchaseList = new ArrayList<>();
     private ArrayList<Supplier> suppliers;
-    private ArrayList<Article> listProductsFiltredByCategory;
+    private ArrayList<Product> listProductsFiltredByCategory;
 
     private Data() {
     }
@@ -33,19 +33,19 @@ public class Data {
         return ourInstance;
     }
 
-    public ArrayList<Article> getListProductsFiltredByCategory() {
+    public ArrayList<Product> getListProductsFiltredByCategory() {
         return listProductsFiltredByCategory;
     }
 
-    public void setListProductsFiltredByCategory(ArrayList<Article> listProductsFiltredByCategory) {
+    public void setListProductsFiltredByCategory(ArrayList<Product> listProductsFiltredByCategory) {
         this.listProductsFiltredByCategory = listProductsFiltredByCategory;
     }
 
-    public ArrayList<Article> getListProducts() {
+    public ArrayList<Product> getListProducts() {
         return listProducts;
     }
 
-    public void setListProducts(ArrayList<Article> listProducts) {
+    public void setListProducts(ArrayList<Product> listProducts) {
         this.listProducts = listProducts;
     }
 

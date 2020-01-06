@@ -23,7 +23,7 @@ import butterknife.Unbinder;
 import io.mintit.lafarge.R;
 import io.mintit.lafarge.adapter.ReservationsAdapter;
 import io.mintit.lafarge.events.UpdateReservationEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.Reservation;
 import io.mintit.lafarge.ui.activity.MainActivity;
@@ -40,9 +40,9 @@ public class ReservationListFragment extends BaseFragment implements Reservation
     private ReservationsAdapter reservationsAdapter;
     private Reservation c1 = new Reservation();
     private Reservation c2 = new Reservation();
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
     Category cat1 = new Category();
 
     @Override
@@ -135,10 +135,10 @@ public class ReservationListFragment extends BaseFragment implements Reservation
         p3.setEanCode("2222");
         p3.setQty(4);
 
-        ArrayList<Article> listProductForCart = new ArrayList<>();
+        ArrayList<Product> listProductForCart = new ArrayList<>();
         listProductForCart.add(p1);
         listProductForCart.add(p2);
-        ArrayList<Article> listProductForCart2 = new ArrayList<>();
+        ArrayList<Product> listProductForCart2 = new ArrayList<>();
         listProductForCart2.add(p3);
         //------------
         c1.setAgentID(String.valueOf(activity.getSellerLogin().getId()));

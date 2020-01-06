@@ -3,7 +3,6 @@ package io.mintit.lafarge.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,14 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +33,12 @@ import io.mintit.lafarge.adapter.ProductsAdapter;
 import io.mintit.lafarge.events.InventoryEvent;
 import io.mintit.lafarge.events.ProductSelectedEvent;
 import io.mintit.lafarge.global.Constants;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Inventory;
 import io.mintit.lafarge.model.InventoryArticle;
 import io.mintit.lafarge.services.ActionRequestsManager;
 import io.mintit.lafarge.ui.activity.MainActivity;
 import io.mintit.lafarge.utils.DebugLog;
-import io.mintit.lafarge.utils.Prefs;
 import io.mintit.lafarge.utils.Utils;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
@@ -171,20 +165,20 @@ public class InventoryProductsFragment extends BaseFragment implements ProductsA
     }
 
     @Override
-    public void onItemClick(Article product) {
+    public void onItemClick(Product product) {
     }
 
     @Override
-    public void onItemAdd(Article product, int pickedNumber, boolean fromDetail) {
+    public void onItemAdd(Product product, int pickedNumber, boolean fromDetail) {
         EventBus.getDefault().post(new ProductSelectedEvent(product, pickedNumber,false));
     }
 
     @Override
-    public void onItemUpdate(Article product) {
+    public void onItemUpdate(Product product) {
     }
 
     @Override
-    public void onItemRemove(Article product) {
+    public void onItemRemove(Product product) {
     }
 
     @OnClick({R.id.linearLayout_scan_code, R.id.relativeLayout_submit})
@@ -296,12 +290,12 @@ public class InventoryProductsFragment extends BaseFragment implements ProductsA
             activity.getLafargeDatabase().articleDao().getArticleByStock(result.getContents()/*"3102279312284"*/)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<List<Article>>() {
+                    .subscribe(new Consumer<List<Product>>() {
                         @Override
-                        public void accept(List<Article> articles) {
+                        public void accept(List<Product> products) {
                             String codeArticle = "";
-                            if (articles.size() > 0) {
-                                codeArticle = articles.get(0).getProductCode();
+                            if (products.size() > 0) {
+                                codeArticle = products.get(0).getProductCode();
                             }
                             for (int i = 0; i < listProducts.size(); i++) {
                                 InventoryArticle article = listProducts.get(i);

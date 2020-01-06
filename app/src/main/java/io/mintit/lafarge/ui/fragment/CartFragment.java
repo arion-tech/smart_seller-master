@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -54,7 +53,7 @@ import io.mintit.lafarge.adapter.SellersAdapter;
 import io.mintit.lafarge.data.Data;
 import io.mintit.lafarge.events.CustomerSelectedEvent;
 import io.mintit.lafarge.events.ProductSelectedEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.Seller;
@@ -119,18 +118,18 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
     private Gson gson = new Gson();
     private Seller selectedSeller;
     private String toast;
-    ArrayList<Article> productsList = new ArrayList<>();
+    ArrayList<Product> productsList = new ArrayList<>();
     ProductsFragment productsFragment;
 
     private ArrayList<Category> categoriesList = new ArrayList<>();
-    private ArrayList<Article> articleDbList = new ArrayList<>();
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
-    Article p4 = new Article();
-    Article p5 = new Article();
-    Article p6 = new Article();
-    Article p7 = new Article();
+    private ArrayList<Product> productDbList = new ArrayList<>();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
+    Product p4 = new Product();
+    Product p5 = new Product();
+    Product p6 = new Product();
+    Product p7 = new Product();
     Category c1 = new Category();
     Category c2 = new Category();
     Category c3 = new Category();
@@ -373,7 +372,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewProducts.setLayoutManager(layoutManager);
-        productsAdapter = new ProductsAdapter(new ArrayList<Article>(), activity, activity, true, isClosedCart);
+        productsAdapter = new ProductsAdapter(new ArrayList<Product>(), activity, activity, true, isClosedCart);
         recyclerViewProducts.setAdapter(productsAdapter);
         productsAdapter.setOnItemClickListener(this);
         productsAdapter.setCartList(true);
@@ -413,7 +412,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
     private void loadProducts() {
         //activity.getLafargeDatabase().articleDao().getArticleByStock()
         reloadProducts();
-        productsList.addAll(articleDbList);
+        productsList.addAll(productDbList);
         scrollListener();
     }
 
@@ -422,7 +421,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
     private void initWithWalkthroughCustomer() {
         //initialize the customer with Walkthrough "Generic Customer"
         if(cart != null) {
-            cart.setCustomer("SC000004");
+            cart.setCustomer("SC000925");
             cart.setCompany(true);
             cart.setCustomerFirstName("");
             cart.setCustomerLastName("CLIENT de PASSAGE");
@@ -460,7 +459,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         boolean found = false;
         if (event.getProduct() != null) {
             //TODO check price type: detail/gros/promo
-            Article product = event.getProduct();
+            Product product = event.getProduct();
             DebugLog.d("onClick " + product.getQty());
             if (product.getQty() > 0) {
                 for (int i = 0; i < cart.getProductList().size(); i++) {
@@ -494,10 +493,10 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
 
 
     @SuppressLint("CheckResult")
-    private Double getTarification(Article article) {
+    private Double getTarification(Product product) {
         final Tarif[] tarif = new Tarif[1];
         //SELECT * FROM Tarif where mCodeArticle = :codeArticle and regimePrix = :regimePrix COLLATE NOCASE
-        //activity.getLafargeDatabase().tarifDao().getTarifByCodeArticleAndRegimePrix(article.getCodeArticle(), switchPriceMode.isChecked() ? Constants.TTC : Constants.HT)
+        //activity.getLafargeDatabase().tarifDao().getTarifByCodeArticleAndRegimePrix(product.getCodeArticle(), switchPriceMode.isChecked() ? Constants.TTC : Constants.HT)
         ArrayList<Tarif> tarifs = new ArrayList<>();
 
         if (tarifs.size() > 0) {
@@ -508,7 +507,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
         if (tarif[0] != null) {
             return tarif[0].getPrice();
         }
-        return article.getPrice();
+        return product.getPrice();
     }
 
 
@@ -735,17 +734,17 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
 
 
     @Override
-    public void onItemClick(Article product) {
+    public void onItemClick(Product product) {
     }
 
     @Override
-    public void onItemAdd(Article product, int pickedNumber, boolean fromdetail) {
+    public void onItemAdd(Product product, int pickedNumber, boolean fromdetail) {
         updateTotal();
     }
 
 
     @Override
-    public void onItemUpdate(Article product) {
+    public void onItemUpdate(Product product) {
         for (int i = 0; i < cart.getProductList().size(); i++) {
             if (cart.getProductList().get(i).getEanCode().equals(product.getEanCode())) {
                 cart.getProductList().get(i).setQty(product.getQty());
@@ -767,7 +766,7 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
     }
 
     @Override
-    public void onItemRemove(Article product) {
+    public void onItemRemove(Product product) {
         cart.getProductList().remove(product);
         updateTotal();
         productsAdapter.removeItem(product);
@@ -804,15 +803,15 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
 
     private void reloadProducts(){
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN, getContext()));
-        Call<ArrayList<Article>> productCall = service.getarticle("101");
-        productCall.enqueue(new Callback<ArrayList<Article>>() {
+        Call<ArrayList<Product>> productCall = service.getarticle("101");
+        productCall.enqueue(new Callback<ArrayList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<Article>> call, Response<ArrayList<Article>> response) {
-                ArrayList<Article> listArticle = response.body();
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> listProduct = response.body();
                 System.out.println("exeption : " + response.body());
-                for(Article s: listArticle){
+                for(Product s: listProduct){
                     System.out.println("SEEEELLLLLEEEER : " + s.toString());
-                    Article p = new Article();
+                    Product p = new Product();
                     p.setId(s.getId());
                     p.setPrice(s.getPrice());
                     p.setName(s.getName());
@@ -820,12 +819,11 @@ public class CartFragment extends BaseFragment implements ProductsAdapter.OnItem
                     p.setProductCode(s.getProductCode());
                     p.setCategory(s.getCategory());
                     p.setEanCode(s.getEanCode());
-                    articleDbList.add(p);
+                    productDbList.add(p);
                 }
             }
             @Override
-            public void onFailure(Call<ArrayList<Article>> call, Throwable throwable){
-
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable){
                 System.out.println("Errorr :");
             }
         });

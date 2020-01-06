@@ -32,7 +32,7 @@ public class Reservation implements Parcelable {
     @SerializedName("product_list")
     @Expose
     @TypeConverters(ListArticleConverter.class)
-    private ArrayList<Article> productList = new ArrayList<>();
+    private ArrayList<Product> productList = new ArrayList<>();
     @SerializedName("price_type")
     @Expose
     private Boolean priceType;
@@ -119,11 +119,11 @@ public class Reservation implements Parcelable {
     }
 
     @TypeConverters(ListArticleConverter.class)
-    public ArrayList<Article> getProductList() {
+    public ArrayList<Product> getProductList() {
         return productList;
     }
     @TypeConverters(ListArticleConverter.class)
-    public void setProductList(ArrayList<Article> productList) {
+    public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 
@@ -292,7 +292,7 @@ public class Reservation implements Parcelable {
     protected Reservation(Parcel in) {
         this.customer = in.readString();
         this.basePrice = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.productList = in.createTypedArrayList(Article.CREATOR);
+        this.productList = in.createTypedArrayList(Product.CREATOR);
         this.priceType = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.date = in.readString();
         this.time = in.readString();

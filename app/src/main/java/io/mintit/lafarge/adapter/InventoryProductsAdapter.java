@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.mintit.lafarge.R;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Inventory;
 import io.mintit.lafarge.model.InventoryArticle;
 import io.mintit.lafarge.ui.activity.MainActivity;
@@ -144,13 +144,13 @@ public class InventoryProductsAdapter extends RecyclerView.Adapter<RecyclerView.
 
 
     public interface OnItemClickListener {
-        void onItemClick(Article product);
+        void onItemClick(Product product);
 
-        void onItemAdd(Article product);
+        void onItemAdd(Product product);
 
-        void onItemUpdate(Article product);
+        void onItemUpdate(Product product);
 
-        void onItemRemove(Article product);
+        void onItemRemove(Product product);
 
     }
 

@@ -23,7 +23,7 @@ public class Promotion implements Parcelable {
         }
     };
     @SerializedName("articles")
-    private List<Article> mArticles;
+    private List<Product> mProducts;
     @SerializedName("calculRemise")
     private Long mCalculRemise;
     @SerializedName("codeArticle")
@@ -53,7 +53,7 @@ public class Promotion implements Parcelable {
     }
 
     protected Promotion(Parcel in) {
-        this.mArticles = in.createTypedArrayList(Article.CREATOR);
+        this.mProducts = in.createTypedArrayList(Product.CREATOR);
         this.mCalculRemise = (Long) in.readValue(Long.class.getClassLoader());
         this.mCodeArticle = in.readString();
         this.mCodeBarre = in.readString();
@@ -68,12 +68,12 @@ public class Promotion implements Parcelable {
         this.mStartDate = in.readString();
     }
 
-    public List<Article> getArticles() {
-        return mArticles;
+    public List<Product> getArticles() {
+        return mProducts;
     }
 
-    public void setArticles(List<Article> articles) {
-        mArticles = articles;
+    public void setArticles(List<Product> products) {
+        mProducts = products;
     }
 
     public Long getCalculRemise() {
@@ -179,7 +179,7 @@ public class Promotion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.mArticles);
+        dest.writeTypedList(this.mProducts);
         dest.writeValue(this.mCalculRemise);
         dest.writeString(this.mCodeArticle);
         dest.writeString(this.mCodeBarre);

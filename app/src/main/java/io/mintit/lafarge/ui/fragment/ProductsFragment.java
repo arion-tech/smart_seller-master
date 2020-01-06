@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -34,7 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -49,10 +46,9 @@ import io.mintit.lafarge.adapter.ProductsAdapter;
 import io.mintit.lafarge.events.ChangeTarifEvent;
 import io.mintit.lafarge.events.ProductSelectedEvent;
 import io.mintit.lafarge.global.Constants;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
-import io.mintit.lafarge.ui.activity.ChooseSellerActivity;
 import io.mintit.lafarge.ui.activity.MainActivity;
 import io.mintit.lafarge.utils.DebugLog;
 import io.mintit.lafarge.utils.Prefs;
@@ -88,7 +84,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
     TextView textviewReset;
     @BindView(R.id.linearLayout_selected_category)
     LinearLayout linearLayoutSelectedCategory;
-    ArrayList<Article> listProducts = new ArrayList<>();
+    ArrayList<Product> listProducts = new ArrayList<>();
     boolean selectItem ;
     @BindView(R.id.cardView_container)
     CardView cardViewContainer;
@@ -104,19 +100,19 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
     private boolean fromProduct;
     private boolean fromOrder;
     //private boolean scrool = true;
-    ArrayList<Article> listProductsTemp = new ArrayList<>();
+    ArrayList<Product> listProductsTemp = new ArrayList<>();
     //ArrayList<String> stockCodeArticle = new ArrayList<>();
-    ArrayList<Article> listArticlesFilteredByCat = new ArrayList<>();
-    ArrayList<Article> searchedArticlesList = new ArrayList<>();
+    ArrayList<Product> listArticlesFilteredByCat = new ArrayList<>();
+    ArrayList<Product> searchedArticlesList = new ArrayList<>();
     ApiInterface ApiInterface;
 
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
-    Article p4 = new Article();
-    Article p5 = new Article();
-    Article p6 = new Article();
-    Article p7 = new Article();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
+    Product p4 = new Product();
+    Product p5 = new Product();
+    Product p6 = new Product();
+    Product p7 = new Product();
     Category c0 = new Category();
     Category c1 = new Category();
     Category c2 = new Category();
@@ -274,15 +270,15 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
         //listProducts = Prefs.getPrefList("listProducts", getContext());
         progressBar.setVisibility(View.VISIBLE);
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN,getContext()));
-        Call<ArrayList<Article>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getContext()));
-        productCall.enqueue(new Callback<ArrayList<Article>>() {
+        Call<ArrayList<Product>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getContext()));
+        productCall.enqueue(new Callback<ArrayList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<Article>> call, Response<ArrayList<Article>> response) {
-                ArrayList<Article> listArticle = response.body();
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> listProduct = response.body();
                 int i = 0;
-                for(Article s: listArticle){
+                for(Product s: listProduct){
                     System.out.println("service product : " + s.toString());
-                    Article p = new Article();
+                    Product p = new Product();
                     p.setId(s.getId());
                     p.setPrice(s.getPrice());
                     p.setName(s.getName());
@@ -300,7 +296,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Article>> call, Throwable throwable){}
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable){}
         });
 
 
@@ -391,7 +387,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
         System.out.println("InitViews method productAdapter " + productsAdapter.productsList.size());
     }
 
-    private void setSearchedArticles(ArrayList<Article> searchedArticlesList) {
+    private void setSearchedArticles(ArrayList<Product> searchedArticlesList) {
         if (searchedArticlesList.size() > 0) {
             productsAdapter.clear();
             listProductsTemp.clear();
@@ -411,7 +407,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
     private void loadSearchedProducts(final String constraint) {
         this.constraint = constraint;
         //reloadProducts();
-        List<Article> articles = new ArrayList<>();
+        List<Product> articles = new ArrayList<>();
         articles.addAll(listProducts);
         if (articles.size() > 0) {
             productsAdapter.clear();
@@ -462,20 +458,20 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
     }
 
     @Override
-    public void onItemClick(Article product) {
+    public void onItemClick(Product product) {
     }
 
     @Override
-    public void onItemAdd(Article product, int pickedNumber, boolean fromDetail) {
+    public void onItemAdd(Product product, int pickedNumber, boolean fromDetail) {
         EventBus.getDefault().post(new ProductSelectedEvent(product, pickedNumber, fromDetail));
     }
 
     @Override
-    public void onItemUpdate(Article product) {
+    public void onItemUpdate(Product product) {
     }
 
     @Override
-    public void onItemRemove(Article product) {
+    public void onItemRemove(Product product) {
     }
 
     @OnClick({R.id.textview_reset, R.id.linearLayout_back, R.id.linearLayout_scan_code, R.id.linearLayout_category})
@@ -577,7 +573,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
     @SuppressLint("CheckResult")
     private void filterProductsList(String selectedCategoryFromDialog) {
         productsAdapter.clear();
-        for(Article art: listProducts){
+        for(Product art: listProducts){
             Category x = (Category) art.getCategory();
             if(selectedCategoryFromDialog.equals(x.getLibelle())){
                 productsAdapter.add(art);
@@ -595,7 +591,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
 
         if (result != null) {
             if (result.getContents() != null) {
-                Article product_inter = new Article();
+                Product product_inter = new Product();
                 if(selectedCategory == null) {
                     productsAdapter.clear();
                     System.out.println("After CLEAAAAAAAAAAAAAAAAAAAAAAR" + productsAdapter.productsList.size());

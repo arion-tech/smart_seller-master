@@ -24,11 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.hendrix.pdfmyxml.PdfDocument;
 import com.hendrix.pdfmyxml.viewRenderer.AbstractViewRenderer;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 
 import java.io.File;
 import java.text.ParseException;
@@ -41,19 +41,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.mintit.lafarge.R;
+import io.mintit.lafarge.Retrofit.ApiInterface;
+import io.mintit.lafarge.Retrofit.ApiManager;
 import io.mintit.lafarge.adapter.ProductsAdapter;
 import io.mintit.lafarge.events.UpdateCartEvent;
 import io.mintit.lafarge.global.Constants;
 import io.mintit.lafarge.model.Address;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
-import io.mintit.lafarge.model.Commande;
 import io.mintit.lafarge.model.Customer;
 import io.mintit.lafarge.model.Payment;
-import io.mintit.lafarge.model.SalesDocument;
+import io.mintit.lafarge.model.SalesItems;
+import io.mintit.lafarge.model.SalesOrders;
 import io.mintit.lafarge.services.ActionRequestsManager;
 import io.mintit.lafarge.ui.activity.MainActivity;
 import io.mintit.lafarge.utils.DebugLog;
+import io.mintit.lafarge.utils.Prefs;
 import io.mintit.lafarge.utils.Utils;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
@@ -62,6 +65,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -152,7 +159,7 @@ public class CloseCartFragment extends BaseFragment {
     private String mParam2;
     private MainActivity activity;
     private ProductsAdapter productsAdapter;
-    private ArrayList<Article> listProducts = new ArrayList<>();
+    private ArrayList<Product> listProducts = new ArrayList<>();
     private Customer customer;
     private double remaining = 0;
 
@@ -469,7 +476,6 @@ public class CloseCartFragment extends BaseFragment {
                     Toast.makeText(activity, "Paiement validé", Toast.LENGTH_SHORT).show();
                     activity.showProgressBar(true);
                     saveSalesDocument();
-
                     closeCart();
                 }
             }, true, true);
@@ -486,36 +492,38 @@ public class CloseCartFragment extends BaseFragment {
 
     private void saveSalesDocument() {
         updateCartDB();
-        SalesDocument salesDocument = new SalesDocument();
+        SalesOrders salesDocument = new SalesOrders();
+
         //--- Begin standard fields ----
-        salesDocument.setActive(true);
-        try {
+        salesDocument.setStoreCode(Prefs.getPref(Prefs.STORE, getContext()));
+       /* try {
             salesDocument.setDate(Utils.getCurrentFullDate());
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        salesDocument.setInternalReference(UUID.randomUUID().toString());
-        salesDocument.setCurrencyId(mCart.getCurrencyId());
-        salesDocument.setLinesUnmodifiable(true);
+        }*/
+        /*salesDocument.setTransType(UUID.randomUUID().toString());*/
+        salesDocument.setTransType("ReceiptOnHold");
+        salesDocument.setCurrencyCode(mCart.getCurrencyId());
+        /*salesDocument.setLinesUnmodifiable(true);*/
         //TODO extract constant fields
-        salesDocument.setOrigin("ECommerce");
+        /*salesDocument.setOrigin("ECommerce");
         salesDocument.setType("Receipt");
         salesDocument.setBillingStatus("Totally");
         salesDocument.setFollowUpStatus("ToBeProcessed");
         salesDocument.setReturnStatus("NotReturned");
         salesDocument.setShippingStatus("Pending");
         salesDocument.setDeliveryType("BookedInStore");
-        salesDocument.setPaymentStatus("Totally");
+        salesDocument.setPaymentStatus("Totally");*/
         //--- End standard fields ----
         // TODO: 03/04/19 store id must be 300
        // salesDocument.setStoreId(activity.getEtablissement().getCodeEtablissement());
-        salesDocument.setStoreId("999");
-        salesDocument.setDeliveryStoreId(activity.getEtablissement().getCodeEtablissement());
+  /*      salesDocument.setStoreId("999");
+        salesDocument.setDeliveryStoreId(activity.getEtablissement().getCodeEtablissement());*/
 
         if (mCart.getCustomer()!= null && !TextUtils.isEmpty(mCart.getCustomer())) {
             salesDocument.setCustomerId(mCart.getCustomer());
         } else {
-            salesDocument.setCustmerReference(customer.getReference());
+            salesDocument.setTransType(customer.getReference());
         }
         Address address = new Address();
         address.setCity("");
@@ -541,24 +549,35 @@ public class CloseCartFragment extends BaseFragment {
             phone = customer.getAlternatePhoneNumber();
         }*/
         address.setPhoneNumber("");
-        salesDocument.setAddress(address);
-        ArrayList<Commande> commandes = new ArrayList<>();
+       /* salesDocument.setAddress(address);*/
+        ArrayList<SalesItems> commandes = new ArrayList<>();
         for (int i = 0; i < mCart.getProductList().size(); i++) {
-            Commande commande = new Commande();
-            commande.setArticle(mCart.getProductList().get(i));
-            commande.setReference(mCart.getProductList().get(i).getEanCode());
-            commande.setQuantity(mCart.getProductList().get(i).getQty());
-            commande.setBasketId(i);
-            commande.setArticleId(" " + mCart.getProductList().get(i).getId());
-            commande.setOrigin(salesDocument.getOrigin());
+            Product commande = new Product();
+            SalesItems salesitems = new  SalesItems();
+            //commande.se(mCart.getProductList().get(i));
+            commande.setCurrencyCode(mCart.getProductList().get(i).getCurrencyCode());
+            commande.setEanCode(mCart.getProductList().get(i).getEanCode());
+            commande.setQty(mCart.getProductList().get(i).getQty());
+            //commande.setBasketId(i);
+            commande.setStock(mCart.getProductList().get(i).getStock());
+            commande.setCurrencyCode(" " + mCart.getProductList().get(i).getEanCode());
+            commande.setPrice(mCart.getProductList().get(i).getPrice());
+            commande.setDescription(mCart.getSellerLibelle());
+            commande.setCode(mCart.getProductList().get(i).getCode());
+            //commande.setOrigin(salesDocument.getOrigin());
             //commande.setTaxIncludedUnitPrice(mCart.getProductList().get(i).getPrice());
             //commande.setTaxIncludedNetUnitPrice(mCart.getProductList().get(i).getPrice());
-            commande.setTaxExcludedNetUnitPrice(0);
-            commande.setTaxExcludedUnitPrice(0);
-            commandes.add(commande);
+            //commande.setTaxExcludedNetUnitPrice(0);
+            //commande.setTaxExcludedUnitPrice(0);
+            salesitems.setStaffCode("CCL");
             commande.setId(mCart.getId());
+            salesitems.setProduct(commande);
+            salesitems.setSoldPrice(mCart.getTotal());
+            commandes.add(salesitems);
+            salesDocument.setSalesItems(commandes);
+
         }
-        salesDocument.setCommandes(commandes);
+
         ArrayList<Payment> payments = new ArrayList<>();
         if (cash != null) {
             cash.setPaymentId(payments.size() + 1);
@@ -579,7 +598,22 @@ public class CloseCartFragment extends BaseFragment {
 
 
         new ActionRequestsManager(activity).createNewActionRequest(salesDocument, "Insert", Constants.ACTION_REQUEST_SALES_DOCUMENT);
+        ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN, getContext()));
+        JsonObject paramObject = new JsonObject();
+        String js = new Gson().toJson(salesDocument);
+        Call<ResponseBody> DocumentCall = service.addDocument(salesDocument);
+        DocumentCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response <ResponseBody> response) {
 
+                System.out.println("document add : " + response.body());
+
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable){
+                System.out.println("Errorr document:"+throwable.getMessage());
+            }
+        });
 
     }
 

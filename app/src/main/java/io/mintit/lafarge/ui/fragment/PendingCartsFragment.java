@@ -2,10 +2,7 @@ package io.mintit.lafarge.ui.fragment;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,7 +26,7 @@ import butterknife.Unbinder;
 import io.mintit.lafarge.R;
 import io.mintit.lafarge.adapter.SalesAdapter;
 import io.mintit.lafarge.events.UpdateCartEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Cart;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.ui.activity.MainActivity;
@@ -59,9 +56,9 @@ public class PendingCartsFragment extends BaseFragment implements SalesAdapter.O
     private Cart c1 = new Cart();
     private Cart c2 = new Cart();
 
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
     Category cat1 = new Category();
 
 
@@ -232,10 +229,10 @@ public class PendingCartsFragment extends BaseFragment implements SalesAdapter.O
         p3.setCategory(cat1);
         p3.setEanCode("2222");
 
-        ArrayList<Article> listProductForCart = new ArrayList<>();
+        ArrayList<Product> listProductForCart = new ArrayList<>();
         listProductForCart.add(p1);
         listProductForCart.add(p2);
-        ArrayList<Article> listProductForCart2 = new ArrayList<>();
+        ArrayList<Product> listProductForCart2 = new ArrayList<>();
         listProductForCart2.add(p3);
         //------------
         c1.setAgentID(String.valueOf(activity.getSellerLogin().getId()));

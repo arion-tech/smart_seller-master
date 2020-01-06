@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 @Entity
-public class Article implements Parcelable {
+public class Product implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -91,7 +91,7 @@ public class Article implements Parcelable {
     private int stock;
     private transient String date;
 
-    public Article() {
+    public Product() {
     }
 
 
@@ -286,7 +286,7 @@ public class Article implements Parcelable {
         dest.writeString(this.date);
     }
 
-    protected Article(Parcel in) {
+    protected Product(Parcel in) {
         this.storeCode = in.readString();
         this.id = (String) in.readValue(String.class.getClassLoader());
         this.code = in.readString();
@@ -309,21 +309,21 @@ public class Article implements Parcelable {
         this.date = in.readString();
     }
 
-    public static final Creator<Article> CREATOR = new Creator<Article>() {
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
-        public Article createFromParcel(Parcel source) {
-            return new Article(source);
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
         }
 
         @Override
-        public Article[] newArray(int size) {
-            return new Article[size];
+        public Product[] newArray(int size) {
+            return new Product[size];
         }
     };
 
     @Override
     public String toString() {
-        return "Article{" +
+        return "Product{" +
                 "id=" + id +
                 ", storeCode='" + storeCode + '\'' +
                 ", description='" + description + '\'' +

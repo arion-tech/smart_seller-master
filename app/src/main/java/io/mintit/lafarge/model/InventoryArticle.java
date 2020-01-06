@@ -5,12 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 @Entity
-public class InventoryArticle extends Article implements Parcelable {
+public class InventoryArticle extends Product implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int idInventoryArticle;
     @SerializedName("codeliste")

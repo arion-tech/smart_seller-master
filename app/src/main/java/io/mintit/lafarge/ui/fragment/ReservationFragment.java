@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -44,7 +43,7 @@ import io.mintit.lafarge.adapter.ProductsAdapter;
 import io.mintit.lafarge.data.Data;
 import io.mintit.lafarge.events.CustomerSelectedEvent;
 import io.mintit.lafarge.events.ProductSelectedEvent;
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 import io.mintit.lafarge.model.Category;
 import io.mintit.lafarge.model.Reservation;
 import io.mintit.lafarge.model.Seller;
@@ -94,18 +93,18 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
     private Gson gson = new Gson();
     private Seller selectedSeller;
     private String toast;
-    ArrayList<Article> productsList = new ArrayList<>();
+    ArrayList<Product> productsList = new ArrayList<>();
     ProductsReservationFragment productsFragment;
 
     private ArrayList<Category> categoriesList = new ArrayList<>();
-    private ArrayList<Article> articleDbList = new ArrayList<>();
-    Article p1 = new Article();
-    Article p2 = new Article();
-    Article p3 = new Article();
-    Article p4 = new Article();
-    Article p5 = new Article();
-    Article p6 = new Article();
-    Article p7 = new Article();
+    private ArrayList<Product> productDbList = new ArrayList<>();
+    Product p1 = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
+    Product p4 = new Product();
+    Product p5 = new Product();
+    Product p6 = new Product();
+    Product p7 = new Product();
     Category c1 = new Category();
     Category c2 = new Category();
     Category c3 = new Category();
@@ -223,7 +222,7 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerViewProducts.setLayoutManager(layoutManager);
-        productsAdapter = new ProductsAdapter(new ArrayList<Article>(), activity, activity, true, false);
+        productsAdapter = new ProductsAdapter(new ArrayList<Product>(), activity, activity, true, false);
         recyclerViewProducts.setAdapter(productsAdapter);
         productsAdapter.setOnItemClickListener(this);
         productsAdapter.setCartList(true);
@@ -261,7 +260,7 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
     private void loadProducts() {
         //activity.getLafargeDatabase().articleDao().getArticleByStock()
         reloadProducts();
-        productsList.addAll(articleDbList);
+        productsList.addAll(productDbList);
         scrollListener();
     }
 
@@ -270,7 +269,7 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
     private void initWithWalkthroughCustomer() {
         //initialize the customer with Walkthrough "Generic Customer"
         if(res != null) {
-            res.setCustomer("SC000004");
+            res.setCustomer("SC000925");
             res.setCompany(true);
             res.setCustomerFirstName("");
             res.setCustomerLastName("CLIENT de PASSAGE");
@@ -307,7 +306,7 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
         boolean found = false;
         if (event.getProduct() != null) {
             //TODO check price type: detail/gros/promo
-            Article product = event.getProduct();
+            Product product = event.getProduct();
             DebugLog.d("onClick " + product.getQty());
             if (product.getStock() > 0) {
                 for (int i = 0; i < res.getProductList().size(); i++) {
@@ -427,17 +426,17 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
     }
 
     @Override
-    public void onItemClick(Article product) {
+    public void onItemClick(Product product) {
     }
 
     @Override
-    public void onItemAdd(Article product, int pickedNumber, boolean fromdetail) {
+    public void onItemAdd(Product product, int pickedNumber, boolean fromdetail) {
         updateTotal();
     }
 
 
     @Override
-    public void onItemUpdate(Article product) {
+    public void onItemUpdate(Product product) {
         for (int i = 0; i < res.getProductList().size(); i++) {
             if (res.getProductList().get(i).getEanCode().equals(product.getEanCode())) {
                 res.getProductList().get(i).setQty(product.getQty());
@@ -458,7 +457,7 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
     }
 
     @Override
-    public void onItemRemove(Article product) {
+    public void onItemRemove(Product product) {
         res.getProductList().remove(product);
         updateTotal();
         productsAdapter.removeItem(product);
@@ -484,15 +483,15 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
 
 
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN, getContext()));
-        Call<ArrayList<Article>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getContext()));
-        productCall.enqueue(new Callback<ArrayList<Article>>() {
+        Call<ArrayList<Product>> productCall = service.getarticle(Prefs.getPref(Prefs.STORE , getContext()));
+        productCall.enqueue(new Callback<ArrayList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<Article>> call, Response<ArrayList<Article>> response) {
-                ArrayList<Article> listArticle = response.body();
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> listProduct = response.body();
                 int i = 0;
-                for(Article s: listArticle){
+                for(Product s: listProduct){
                     System.out.println("SEEEELLLLLEEEER : " + s.toString());
-                    Article p = new Article();
+                    Product p = new Product();
                     p.setId(s.getId());
                     p.setPrice(s.getPrice());
                     p.setName(s.getName());
@@ -501,11 +500,11 @@ public class ReservationFragment extends BaseFragment implements ProductsAdapter
                     p.setCategory(s.getCategory());
                     p.setEanCode(s.getEanCode());
                     p.setDescription(s.getDescription());
-                    articleDbList.add(p);
+                    productDbList.add(p);
                 }
             }
             @Override
-            public void onFailure(Call<ArrayList<Article>> call, Throwable throwable){}
+            public void onFailure(Call<ArrayList<Product>> call, Throwable throwable){}
         });
 
     }

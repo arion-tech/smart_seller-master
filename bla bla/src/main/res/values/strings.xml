@@ -181,7 +181,7 @@
     <string name="commandes_fournisseur">Commandes fournisseur</string>
     <string name="fournisseur">Fournisseur</string>
     <string name="nouveau_panier_">Nouveau panier</string>
-    <string name="error_message_empty_po">Veuillez sélectionner les articles à commander</string>
+    <string name="error_message_empty_po">Veuillez sélectionner les products à commander</string>
     <string name="quantit_totale">Quantité totale</string>
     <string name="quantit_restante">Quantité restante</string>
     <string name="quantit_re_ue">Quantité reçue</string>

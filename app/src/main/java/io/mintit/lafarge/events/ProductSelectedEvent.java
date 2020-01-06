@@ -1,17 +1,17 @@
 package io.mintit.lafarge.events;
 
-import io.mintit.lafarge.model.Article;
+import io.mintit.lafarge.model.Product;
 
 /**
  * Created by mint on 03/04/18.
  */
 
 public class ProductSelectedEvent {
-    private Article product;
+    private Product product;
     private int qte;
     private boolean fromDetail;
 
-    public ProductSelectedEvent(Article product,int qte, boolean fromDetail) {
+    public ProductSelectedEvent(Product product, int qte, boolean fromDetail) {
         this.product = product;
         this.qte = qte;
         this.fromDetail = fromDetail;
@@ -21,7 +21,7 @@ public class ProductSelectedEvent {
         return qte;
     }
 
-    public Article getProduct() {
+    public Product getProduct() {
         return product;
     }
 
