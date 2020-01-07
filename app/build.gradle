@@ -86,4 +86,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation files('build\\libs\\activation.jar')
+    implementation files('build\\libs\\additionnal.jar')
+    implementation files('build\\libs\\mail.jar')
 }

@@ -340,6 +340,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productsAdapter.addProducts(listProducts);
             }
 
             @Override
@@ -349,6 +350,7 @@ public class ProductsFragment extends BaseFragment implements ProductsAdapter.On
                 if (edittextCode.getText().length() == 0) {
                     if(!fromProduct && !fromOrder && selectedCategory == null){
                         productsAdapter.clear();
+                        productsAdapter.addProducts(listProducts);
                     } else {
                         if (selectedCategory == null) {
                             initProducts();

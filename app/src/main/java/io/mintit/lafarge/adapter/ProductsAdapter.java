@@ -156,7 +156,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 mViewHolder.editTextProductStock.setSelection(mViewHolder.editTextProductStock.getText().length());
                                 Utils.showKeyboard(mViewHolder.editTextProductStock, activity);
                             } else {
-                                if (validCount(mViewHolder.editTextProductStock.getText().toString(), product.getStock())) {
+                                if (validCount(mViewHolder.editTextProductStock.getText().toString(), product.getQty())) {
                                     mViewHolder.editTextProductStock.setFocusableInTouchMode(false);
                                     mViewHolder.editTextProductStock.clearFocus();
                                     Utils.hideSoftKeyboard(activity);
@@ -178,7 +178,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onClick(View view) {
                         if (onItemClickListener != null) {
-                            onItemClickListener.onItemAdd(product, 1, false);
+                            onItemClickListener.onItemAdd(product, product.getQty(), false);
                             // mViewHolder.relativeLayoutAddToCart.setVisibility(View.GONE);
                         }
                     }
@@ -259,7 +259,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
         });
-        numberPicker.setMax(product.getStock());
+        numberPicker.setMax(product.getQty());
 
         imageviewClose.setOnClickListener(new View.OnClickListener() {
             @Override

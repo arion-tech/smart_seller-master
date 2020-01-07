@@ -25,6 +25,8 @@ public class SalesOrders implements Parcelable {
     private  String globalAmount;
     @SerializedName("currencyCode")
     private  String currencyCode;
+    @SerializedName("Origin")
+    private  String Origin;
 
     public SalesOrders() {
 

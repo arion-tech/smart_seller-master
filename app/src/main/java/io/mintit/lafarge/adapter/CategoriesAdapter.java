@@ -154,6 +154,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(view);
             ButterKnife.bind(this, view);
         }
+
     }
+
+
 
 }

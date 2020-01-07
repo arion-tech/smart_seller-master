@@ -2,6 +2,11 @@ package io.mintit.lafarge.ui.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,6 +61,7 @@ import io.mintit.lafarge.model.SalesOrders;
 import io.mintit.lafarge.services.ActionRequestsManager;
 import io.mintit.lafarge.ui.activity.MainActivity;
 import io.mintit.lafarge.utils.DebugLog;
+import io.mintit.lafarge.utils.Mail;
 import io.mintit.lafarge.utils.Prefs;
 import io.mintit.lafarge.utils.Utils;
 import io.reactivex.Completable;
@@ -475,8 +481,10 @@ public class CloseCartFragment extends BaseFragment {
                     mCart.setClosed(true);
                     Toast.makeText(activity, "Paiement validé", Toast.LENGTH_SHORT).show();
                     activity.showProgressBar(true);
-                    saveSalesDocument();
+                    String mail = edittextEmail.getText().toString();
+                    saveSalesDocument(mail);
                     closeCart();
+
                 }
             }, true, true);
         }
@@ -490,36 +498,13 @@ public class CloseCartFragment extends BaseFragment {
 
     }
 
-    private void saveSalesDocument() {
+    private void saveSalesDocument(String mail) {
         updateCartDB();
         SalesOrders salesDocument = new SalesOrders();
-
         //--- Begin standard fields ----
         salesDocument.setStoreCode(Prefs.getPref(Prefs.STORE, getContext()));
-       /* try {
-            salesDocument.setDate(Utils.getCurrentFullDate());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-        /*salesDocument.setTransType(UUID.randomUUID().toString());*/
         salesDocument.setTransType("ReceiptOnHold");
         salesDocument.setCurrencyCode(mCart.getCurrencyId());
-        /*salesDocument.setLinesUnmodifiable(true);*/
-        //TODO extract constant fields
-        /*salesDocument.setOrigin("ECommerce");
-        salesDocument.setType("Receipt");
-        salesDocument.setBillingStatus("Totally");
-        salesDocument.setFollowUpStatus("ToBeProcessed");
-        salesDocument.setReturnStatus("NotReturned");
-        salesDocument.setShippingStatus("Pending");
-        salesDocument.setDeliveryType("BookedInStore");
-        salesDocument.setPaymentStatus("Totally");*/
-        //--- End standard fields ----
-        // TODO: 03/04/19 store id must be 300
-       // salesDocument.setStoreId(activity.getEtablissement().getCodeEtablissement());
-  /*      salesDocument.setStoreId("999");
-        salesDocument.setDeliveryStoreId(activity.getEtablissement().getCodeEtablissement());*/
-
         if (mCart.getCustomer()!= null && !TextUtils.isEmpty(mCart.getCustomer())) {
             salesDocument.setCustomerId(mCart.getCustomer());
         } else {
@@ -536,46 +521,25 @@ public class CloseCartFragment extends BaseFragment {
         address.setTitleId("");
         address.setZipCode("");
         String phone = "";
-        /*if (customer.getCellularPhoneNumber() != null) {
-            phone = customer.getCellularPhoneNumber();
-        }
-        if (customer.getHomePhoneNumber() != null) {
-            phone = customer.getHomePhoneNumber();
-        }
-        if (customer.getOfficePhoneNumber() != null) {
-            phone = customer.getOfficePhoneNumber();
-        }
-        if (customer.getAlternatePhoneNumber() != null) {
-            phone = customer.getAlternatePhoneNumber();
-        }*/
         address.setPhoneNumber("");
-       /* salesDocument.setAddress(address);*/
         ArrayList<SalesItems> commandes = new ArrayList<>();
         for (int i = 0; i < mCart.getProductList().size(); i++) {
             Product commande = new Product();
             SalesItems salesitems = new  SalesItems();
-            //commande.se(mCart.getProductList().get(i));
             commande.setCurrencyCode(mCart.getProductList().get(i).getCurrencyCode());
             commande.setEanCode(mCart.getProductList().get(i).getEanCode());
             commande.setQty(mCart.getProductList().get(i).getQty());
-            //commande.setBasketId(i);
             commande.setStock(mCart.getProductList().get(i).getStock());
             commande.setCurrencyCode(" " + mCart.getProductList().get(i).getEanCode());
             commande.setPrice(mCart.getProductList().get(i).getPrice());
             commande.setDescription(mCart.getSellerLibelle());
             commande.setCode(mCart.getProductList().get(i).getCode());
-            //commande.setOrigin(salesDocument.getOrigin());
-            //commande.setTaxIncludedUnitPrice(mCart.getProductList().get(i).getPrice());
-            //commande.setTaxIncludedNetUnitPrice(mCart.getProductList().get(i).getPrice());
-            //commande.setTaxExcludedNetUnitPrice(0);
-            //commande.setTaxExcludedUnitPrice(0);
             salesitems.setStaffCode("CCL");
             commande.setId(mCart.getId());
             salesitems.setProduct(commande);
             salesitems.setSoldPrice(mCart.getTotal());
             commandes.add(salesitems);
             salesDocument.setSalesItems(commandes);
-
         }
 
         ArrayList<Payment> payments = new ArrayList<>();
@@ -591,13 +555,9 @@ public class CloseCartFragment extends BaseFragment {
             cheque.setPaymentId(payments.size() + 1);
             payments.add(cheque);
         }
-
        // salesDocument.setPayments(payments);
-
         DebugLog.d(new Gson().toJson(salesDocument));
 
-
-        new ActionRequestsManager(activity).createNewActionRequest(salesDocument, "Insert", Constants.ACTION_REQUEST_SALES_DOCUMENT);
         ApiInterface service = ApiManager.createService(ApiInterface.class, Prefs.getPref(Prefs.TOKEN, getContext()));
         JsonObject paramObject = new JsonObject();
         String js = new Gson().toJson(salesDocument);
@@ -605,9 +565,9 @@ public class CloseCartFragment extends BaseFragment {
         DocumentCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response <ResponseBody> response) {
-
                 System.out.println("document add : " + response.body());
-
+                new ActionRequestsManager(activity).createNewActionRequest(salesDocument, "Insert", Constants.ACTION_REQUEST_SALES_DOCUMENT);
+                new SendMail().execute(mail);
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable){
@@ -684,5 +644,53 @@ public class CloseCartFragment extends BaseFragment {
             }
 
         }
+
+
     }
+
+
+    private class SendMail extends AsyncTask<String, Integer, Void> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+
+        protected Void doInBackground(String... params) {
+            Mail m = new Mail("djdidi.ghofrane@gmail.com", "jesuisuningenieur2019");
+
+            String[] toArr = {params[0], "djdidi.ghofrane@gmail.com"};
+            m.setTo(toArr);
+            m.setFrom("todjdidi.ghofrane@gmail.com");
+            m.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device.");
+            m.setBody("Email body.");
+
+
+            try {
+                if(m.send()) {
+                    Log.d("","Email was sent successfully.");
+
+
+                } else {
+
+                    Log.d("","Email was not sent");
+                }
+            } catch(Exception e) {
+                Log.e("MailApp", "Could not send email", e);
+
+            }
+            return null;
+        }
+    }
+
 }
+
